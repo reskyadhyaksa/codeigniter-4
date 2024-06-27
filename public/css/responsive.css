@@ -1,0 +1,66 @@
+@media (max-width: 576px) {
+  .banner_part .carousel-inner {
+    height: 18rem;
+    margin-top: 8%;
+    margin-bottom: 0%;
+  }
+
+  .berita_part .media {
+    padding-top: 1.5rem;
+  }
+  .berita_part .media img {
+    padding-right: 0%;
+    padding-bottom: 1.5rem;
+  }
+
+  .form .container .form_lomba :where(.kategori-option, .kategori) {
+    row-gap: 15px;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+  .banner_part .carousel-inner {
+    height: 20rem;
+    margin-top: 8%;
+    margin-bottom: 0%;
+  }
+
+  .our_offer .pilih_kategori {
+    padding-top: 2rem;
+  }
+
+  .berita_part .media img {
+    padding-right: 0%;
+    padding-bottom: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  .banner_part .carousel-inner {
+    height: 30rem;
+    margin-top: 8%;
+    margin-bottom: 0%;
+  }
+
+  .our_offer .pilih_kategori {
+    padding-top: 2rem;
+  }
+
+  .berita_part .media img {
+    padding-right: 10%;
+  }
+
+  .berita_part .media a {
+    width: 50%;
+  }
+
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  .banner_part .carousel-inner {
+    height: 30rem;
+  }
+  .main_menu {
+    height: 9%;
+  }
+}

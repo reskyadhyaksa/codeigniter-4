@@ -106,7 +106,7 @@
                                 </form>
                                 <form action="<?= base_url('admin/delete_mahasiswa'); ?>" method="post" style="display: inline;">
                                     <input type="hidden" name="NIM" value="<?= $row['NIM']; ?>">
-                                    <button class="delete-user"">Delete</button>
+                                    <button class="delete-button"">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -129,6 +129,7 @@
                 <thead>
                     <tr>
                         <th>Nama Lomba</th>
+                        <th>NIM Pengaju</th>
                         <th>Kategori</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
@@ -142,6 +143,7 @@
                     <?php foreach ($approvalCompetitions as $competition) : ?>
                         <tr>
                             <td><?= $competition['nama_lomba']; ?></td>
+                            <td><?= $competition['pengguna_pengaju']; ?></td>
                             <td><?= $competition['kategori_lomba']; ?></td>
                             <td><?= $competition['tanggal_mulai']; ?></td>
                             <td><?= $competition['tanggal_selesai']; ?></td>
@@ -149,8 +151,14 @@
                             <td><img src="<?= base_url('uploads/poster/' . $competition['poster_lomba']) ?>" alt="Poster Lomba" width="100" /></td>
                             <td><a href="<?= $competition['link_lomba'] ?>">Link</a></td>
                             <td>
-                                <button class="approve-competition">Approve</button>
-                                <button class="reject-competition">Reject</button>
+                                <form action="<?= base_url('admin/approveLomba'); ?>" method="post" style="display: inline;">
+                                    <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                    <button class="edit-button"">Accept</button>
+                                </form>
+                                <form action="<?= base_url('admin/rejectLomba'); ?>" method="post" style="display: inline;">
+                                    <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                    <button class="delete-button"">Reject</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

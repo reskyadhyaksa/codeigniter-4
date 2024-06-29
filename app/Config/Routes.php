@@ -21,6 +21,8 @@ $routes->group('', ['filter' => AdminAuthFilter::class], function ($routes) {
         $routes->post('delete_mahasiswa', 'AuthController::delete');
         $routes->post('mahasiswa/register', 'AuthController::mahasiswaRegister');
         $routes->post('mahasiswa/edit', 'AuthController::mahasiswaEdit');
+        $routes->post('approveLomba', 'AdminController::approveLomba');
+        $routes->post('rejectLomba', 'AdminController::rejectLomba');
     });
 });
 

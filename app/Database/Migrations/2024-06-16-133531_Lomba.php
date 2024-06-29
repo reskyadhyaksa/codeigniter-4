@@ -14,8 +14,8 @@ class Lomba extends Migration
                 'constraint'     => 36,
             ],
             'status' => [
-                'type' => 'INT',
-                'constraint' => '1',
+                'type' => 'TINYINT',
+                'constraint' => 0,
             ],
             'kategori_lomba' => [
                 'type' => 'VARCHAR',
@@ -44,6 +44,13 @@ class Lomba extends Migration
             ],
             'tanggal_selesai' => [
                 'type' => 'DATE',
+            ],
+            [
+            'pengguna_pengaju' => [
+                'type' => 'VARCHAR',
+                'constraint' => 20,
+                'null' => false,
+            ]
             ],
             'created_at' => [
                 'type' => 'DATETIME',

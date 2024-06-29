@@ -29,7 +29,8 @@ class LombaSeeder extends Seeder
                 'tenggat_pendaftaran' => '2024-07-01',
                 'tanggal_mulai' => '2024-07-10',
                 'tanggal_selesai' => '2024-07-15',
-                'status' => 1,
+                'pengguna_pengaju' => '01102170312',
+                'status' => 0,
             ],
             [
                 'lomba_id' => 'LM2',
@@ -41,7 +42,8 @@ class LombaSeeder extends Seeder
                 'tenggat_pendaftaran' => '2024-08-01',
                 'tanggal_mulai' => '2024-08-10',
                 'tanggal_selesai' => '2024-08-15',
-                'status' => 1,
+                'pengguna_pengaju' => '01102170312',
+                'status' => 0,
             ],
         ];
 

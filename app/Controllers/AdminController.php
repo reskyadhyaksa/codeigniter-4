@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\ProdiModel;
 use App\Models\MahasiswaModel;
+use App\Models\LombaModel;
 
 class AdminController extends BaseController
 {
@@ -21,13 +22,14 @@ class AdminController extends BaseController
 
         // Query builder untuk mengambil data lomba yang menunggu persetujuan
         $approvalCompetitions = $db->table('lomba')
-            ->where('status', 1)
+            ->where('status', 0)
             ->get()
             ->getResultArray();
 
+
         // Query builder untuk mengambil data lomba yang telah disetujui
         $updateCompetitions = $db->table('lomba')
-            ->where('status', 2)
+            ->where('status', 1)
             ->get()
             ->getResultArray();
 
@@ -84,6 +86,84 @@ class AdminController extends BaseController
             return redirect()->to('/admin/dashboard#');
         }
     }
+
+    public function approveLomba(){
+        // Ambil data lomba_id dari request
+        $lomba_id = $this->request->getPost('lomba_id');
+        
+        // Dapatkan instance dari database
+        $db = \Config\Database::connect();
+        
+        // Buat query untuk mendapatkan data dari tabel lomba
+        $query = $db->table('lomba')->where('lomba_id', $lomba_id)->get();
+        
+        // Ambil hasilnya
+        $lombaData = $query->getRowArray();
+
+        // Periksa apakah data ditemukan
+        if ($lombaData) {
+            // Siapkan data yang akan diperbarui
+            $updatedStatus = [
+                'nama_lomba' => $lombaData['nama_lomba'],
+                'pengguna_pengaju' => $lombaData['pengguna_pengaju'],
+                'kategori_lomba' => $lombaData['kategori_lomba'],
+                'tanggal_mulai' => $lombaData['tanggal_mulai'],
+                'tanggal_selesai' => $lombaData['tanggal_selesai'],
+                'keterangan_lomba' => $lombaData['keterangan_lomba'],
+                'link_lomba' => $lombaData['link_lomba'],
+                'poster_lomba' => $lombaData['poster_lomba'],
+                'status' => 1,
+            ];
+
+            // Update data di database
+            $db->table('lomba')->where('lomba_id', $lomba_id)->update($updatedStatus);
+            
+            // Echo data yang diinginkan
+            return redirect()->to('/admin/dashboard#');
+        } else {
+            return redirect()->to('/admin/dashboard#');
+        }        
+    }
+
+    public function rejectLomba()
+    {
+        // Ambil data lomba_id dari request
+        $lomba_id = $this->request->getPost('lomba_id');
+        
+        // Dapatkan instance dari database
+        $db = \Config\Database::connect();
+        
+        // Buat query untuk mendapatkan data dari tabel lomba
+        $query = $db->table('lomba')->where('lomba_id', $lomba_id)->get();
+        
+        // Ambil hasilnya
+        $lombaData = $query->getRowArray();
+
+        // Periksa apakah data ditemukan
+        if ($lombaData) {
+            // Siapkan data yang akan diperbarui
+            $updatedStatus = [
+                'nama_lomba' => $lombaData['nama_lomba'],
+                'pengguna_pengaju' => $lombaData['pengguna_pengaju'],
+                'kategori_lomba' => $lombaData['kategori_lomba'],
+                'tanggal_mulai' => $lombaData['tanggal_mulai'],
+                'tanggal_selesai' => $lombaData['tanggal_selesai'],
+                'keterangan_lomba' => $lombaData['keterangan_lomba'],
+                'link_lomba' => $lombaData['link_lomba'],
+                'poster_lomba' => $lombaData['poster_lomba'],
+                'status' => 2,
+            ];
+
+            // Update data di database
+            $db->table('lomba')->where('lomba_id', $lomba_id)->update($updatedStatus);
+            
+            // Echo data yang diinginkan
+            return redirect()->to('/admin/dashboard#');
+        } else {
+            return redirect()->to('/admin/dashboard#');
+        }
+    }
+
 
     
     public function addBeritaForm()

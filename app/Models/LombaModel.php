@@ -33,7 +33,8 @@ class LombaModel extends Model
         'tenggat_pendaftaran',
         'tanggal_mulai',
         'tanggal_selesai',
-        'status'
+        'status',
+        'pengguna_pengaju',
     ];
     
 }

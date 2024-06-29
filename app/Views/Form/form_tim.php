@@ -265,55 +265,94 @@
 
   <script>
       $(document).ready(function() {
-          var anggotaCount = 0; // Anggota awal yang sudah ada
+        var anggotaCount = 0; // Anggota awal yang sudah ada
 
-          $('#tambahAnggota').click(function() {
-              anggotaCount++; // Increment count untuk nama unik
+        // Fungsi untuk menambahkan bagian anggota baru
+        $('#tambahAnggota').click(function() {
+            anggotaCount++; // Increment count untuk nama unik
 
-              var newAnggotaSection = `
-                  <section id="anggota${anggotaCount}" class="pb-3">
-                      <div class="input-box">
-                          <label>Nama Anggota ${anggotaCount}</label>
-                          <select id="nama_anggota${anggotaCount}" class="custom-select" name="NIM_anggota${anggotaCount}">
-                              <option value="null" disabled selected>Cantumkan Nama Anggota ${anggotaCount}</option>
-                              <?php foreach ($mahasiswa as $row) : ?>
-                                  <option value="<?= $row['NIM'] ?>" data-prodi-id-anggota="<?= $row['prodi_id'] ?>"><?= $row['nama_lengkap'] ?></option>
-                              <?php endforeach; ?>
-                          </select>
-                      </div>
+            var newAnggotaSection = `
+                <section id="anggota${anggotaCount}" class="pb-3">
+                    <div class="input-box">
+                        <label>Nama Anggota ${anggotaCount}</label>
+                        <select id="nama_anggota${anggotaCount}" class="custom-select" name="NIM_anggota${anggotaCount}">
+                            <option value="null" disabled selected>Cantumkan Nama Anggota ${anggotaCount}</option>
+                            <?php foreach ($mahasiswa as $row) : ?>
+                                <option value="<?= $row['NIM'] ?>" data-prodi-id-anggota="<?= $row['prodi_id'] ?>"><?= $row['nama_lengkap'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-                      <div class="d-flex flex-column input-box">
-                          <label>Prodi Anggota ${anggotaCount}</label>
-                          <p id="prodi-anggota${anggotaCount}" class="border rounded w-100 px-3 py-2">Pilih Anggota ${anggotaCount} terlebih dahulu</p>
-                      </div>
-                  </section>
-              `;
+                    <div class="d-flex flex-column input-box">
+                        <label>Prodi Anggota ${anggotaCount}</label>
+                        <p id="prodi-anggota${anggotaCount}" class="border rounded w-100 px-3 py-2">Pilih Anggota ${anggotaCount} terlebih dahulu</p>
+                    </div>
 
-              $('#anggotaArea').append(newAnggotaSection);
-          });
+                    <button type="button" class="btn btn-danger btn-sm mt-3 deleteAnggota" data-anggota-id="${anggotaCount}">Delete</button>
+                </section>
+            `;
 
-          // Fungsi untuk mengubah teks pada prodi anggota
-          function updateProdiText(anggotaNumber, prodiId) {
-              var prodiAnggotaElement = $(`#prodi-anggota${anggotaNumber}`);
-              var prodiList = <?= json_encode($prodi); ?>; // Ambil data prodi dari PHP
+            $('#anggotaArea').append(newAnggotaSection);
+        });
 
-              if (prodiId) {
-                  var prodi = prodiList.find(prodi => prodi.prodi_id === prodiId);
-                  prodiAnggotaElement.text(prodi ? prodi.nama_prodi : 'Prodi tidak ditemukan');
-              } else {
-                  prodiAnggotaElement.text(`Pilih nama anggota ${anggotaNumber} terlebih dahulu`);
-              }
-          }
+        // Fungsi untuk menghapus bagian anggota
+        $(document).on('click', '.deleteAnggota', function() {
+            var anggotaId = $(this).data('anggota-id');
+            $('#anggota' + anggotaId).remove();
 
-          // Event listener untuk setiap perubahan pada select nama anggota
-          $(document).on('change', '[id^=nama_anggota]', function() {
-              var anggotaNumber = $(this).attr('id').replace('nama_anggota', '');
-              var prodiId = $(this).find(':selected').data('prodi-id-anggota');
-              updateProdiText(anggotaNumber, prodiId);
-          });
-      });
+            // Sinkronisasi ulang nomor urut anggota setelah penghapusan
+            $('#anggotaArea > section').each(function(index) {
+                var newAnggotaId = index + 1;
+                $(this).attr('id', `anggota${newAnggotaId}`);
+
+                $(this).find('label').text(`Nama Anggota ${newAnggotaId}`);
+                $(this).find('select').attr({
+                    id: `nama_anggota${newAnggotaId}`,
+                    name: `NIM_anggota${newAnggotaId}`
+                });
+
+                $(this).find('option').first().text(`Cantumkan Nama Anggota ${newAnggotaId}`);
+                $(this).find('option').each(function() {
+                    var currentValue = $(this).val();
+                    if (currentValue !== 'null') {
+                        $(this).attr('value', currentValue.replace(/\d+/, newAnggotaId));
+                    }
+                });
+
+                $(this).find('label').text(`Prodi Anggota ${newAnggotaId}`);
+                $(this).find('p').attr('id', `prodi-anggota${newAnggotaId}`).text(`Pilih Anggota ${newAnggotaId} terlebih dahulu`);
+
+                $(this).find('.deleteAnggota').attr('data-anggota-id', newAnggotaId);
+            });
+
+            // Reset anggotaCount jika semua anggota dihapus
+            if ($('#anggotaArea').children().length === 0) {
+                anggotaCount = 0;
+            }
+        });
+
+        // Fungsi untuk mengubah teks pada prodi anggota
+        function updateProdiText(anggotaNumber, prodiId) {
+            var prodiAnggotaElement = $(`#prodi-anggota${anggotaNumber}`);
+            var prodiList = <?= json_encode($prodi); ?>; // Ambil data prodi dari PHP
+
+            if (prodiId) {
+                var prodi = prodiList.find(prodi => prodi.prodi_id === prodiId);
+                prodiAnggotaElement.text(prodi ? prodi.nama_prodi : 'Prodi tidak ditemukan');
+            } else {
+                prodiAnggotaElement.text(`Pilih nama anggota ${anggotaNumber} terlebih dahulu`);
+            }
+        }
+
+        // Event listener untuk setiap perubahan pada select nama anggota
+        $(document).on('change', '[id^=nama_anggota]', function() {
+            var anggotaNumber = $(this).attr('id').replace('nama_anggota', '');
+            var prodiId = $(this).find(':selected').data('prodi-id-anggota');
+            updateProdiText(anggotaNumber, prodiId);
+        });
+    });
   </script>
-  
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const selectKetua = document.querySelector('select[id="nama_ketua"]');

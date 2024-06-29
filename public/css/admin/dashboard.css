@@ -83,3 +83,7 @@ table.dataTable {
   background-color: #007bff;
   color: white !important;
 }
+
+.delete-user{
+  background-color: #f01e2c;
+}

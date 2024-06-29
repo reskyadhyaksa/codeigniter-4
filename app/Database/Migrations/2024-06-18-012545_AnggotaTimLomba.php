@@ -27,7 +27,7 @@ class AnggotaTimLomba extends Migration
             ],
 
         ]);
-
+        
         $this->forge->addKey('anggota_tim_lomba_id', TRUE);
         $this->forge->addForeignKey('tim_lomba_id', 'tim_lomba', 'tim_lomba_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('anggota_tim_lomba');

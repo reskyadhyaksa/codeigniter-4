@@ -13,17 +13,19 @@
     <link rel="stylesheet" type="text/css" href="<?= base_url('css/style1.css'); ?>" />
     <link rel="stylesheet" type="text/css" href="<?= base_url('css/admin/dashboard.css'); ?>">
     <!-- Custom CSS for Layout -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
     <div class="left-side-bar">
         <div class="brand-logo">
-            <a href="index.php">
+            <a href="/admin/dashboard#">
                 <img src="<?= base_url('img/deskapp-logo.svg') ?>" alt="" class="dark-logo" />
                 <img src="<?= base_url('img/deskapp-logo-white.svg') ?>" alt="" class="light-logo" />
             </a>
@@ -98,8 +100,14 @@
                             <td><?= $row['nama_lengkap']; ?></td>
                             <td><?= $row['email']; ?></td>
                             <td>
-                                <button class="edit-user">Edit</button>
-                                <button class="delete-user">Delete</button>
+                                <form action="<?= base_url('admin/edit_user_form'); ?>" method="get" style="display: inline;">
+                                    <input type="hidden" name="NIM" value="<?= $row['NIM']; ?>">
+                                    <button class="edit-user"">Edit</button>
+                                </form>
+                                <form action="<?= base_url('admin/delete_mahasiswa'); ?>" method="post" style="display: inline;">
+                                    <input type="hidden" name="NIM" value="<?= $row['NIM']; ?>">
+                                    <button class="delete-user"">Delete</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -108,6 +116,8 @@
             </table>
         </div>
     </div>
+
+    
 
     <!-- Konten tersembunyi untuk persetujuan info lomba -->
     <div id="approval-info-lomba-content" style="display: none;">
@@ -271,7 +281,16 @@
 
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function() {   
+            function confirmDelete() {
+                if (confirm('Are you sure you want to delete this user?')) {
+                    // Submit the form
+                    document.forms[0].submit(); // Assuming there's only one form, adjust if needed
+                } else {
+                    // Do nothing or handle cancellation
+                }
+            }
+
             // Default content
             $('#main-content').html($('#default-content').html());
 

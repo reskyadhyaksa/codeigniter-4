@@ -73,7 +73,7 @@ class AuthGroups extends ShieldAuthGroups
      */
     public array $permissions = [
         'admin.access'        => 'Can access the sites admin area',
-        // 'admin.settings'      => 'Can access the main site settings',
+        'admin.settings'      => 'Can access the main site settings',
         'users.manage-admins' => 'Can manage other admins',
         'users.create'        => 'Can create new non-admin users',
         'users.edit'          => 'Can edit existing non-admin users',
@@ -104,7 +104,7 @@ class AuthGroups extends ShieldAuthGroups
         ],
         'developer' => [
             'admin.access',
-            // 'admin.settings',
+            'admin.settings',
             'users.create',
             'users.edit',
             'beta.access',

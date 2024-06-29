@@ -129,13 +129,96 @@ class AuthController extends BaseController
 
                     $this->mahasiswa->insert($data);
 
-                    return redirect()->to(base_url('admin/register_user_form'))->with('success', 'Mahasiswa berhasil didaftarkan!');
+                    return redirect()->to(base_url('admin/dashboard#'))->with('success', 'Mahasiswa berhasil didaftarkan!');
                 } else {
                     return redirect()->to(base_url('admin/register_user_form'))->with('errors', 'Gagal menyimpan file');
                 }
             }
         } else {
             return redirect()->to(base_url('admin/register_user_form'))->with('errors', 'Tidak ada gambar yang diunggah');
+        }
+    }
+
+    public function mahasiswaEdit()
+    {
+        // Ambil NIM dari form
+        $nim = $this->request->getPost('NIM');
+
+        // Load model MahasiswaModel jika sudah dibuat
+        $mahasiswaModel = new MahasiswaModel();
+
+        // Query untuk mengambil data mahasiswa berdasarkan NIM
+        $mahasiswa = $mahasiswaModel->where('NIM', $nim)->first();
+
+        // Cek apakah data mahasiswa ditemukan
+        if (!$mahasiswa) {
+            return redirect()->to('/admin/dashboard')->with('error', 'Mahasiswa tidak ditemukan.');
+        }
+
+        // Ambil data dari form
+        $nama_lengkap = $this->request->getPost('nama_lengkap');
+        $email = $this->request->getPost('email');
+        $password = $this->request->getPost('password');
+        $prodi_id = $this->request->getPost('prodi_id');
+        $ipk = $this->request->getPost('ipk');
+        $photo = $this->request->getFile('photo');
+        
+        $password = password_hash($password, PASSWORD_DEFAULT);
+
+        // Buat array untuk menyimpan data yang akan diupdate
+        $updateData = [];
+
+        // Bandingkan data yang baru dengan data yang ada di database
+        if ($nama_lengkap != $mahasiswa['nama_lengkap']) {
+            $updateData['nama_lengkap'] = $nama_lengkap;
+        }
+        if ($email != $mahasiswa['email']) {
+            $updateData['email'] = $email;
+        }
+        if ($password != $mahasiswa['password']) {
+            $updateData['password'] = $password;
+        }
+        if ($prodi_id != $mahasiswa['prodi_id']) {
+            $updateData['prodi_id'] = $prodi_id;
+        }
+        if ($ipk != $mahasiswa['ipk']) {
+            $updateData['ipk'] = $ipk;
+        }
+        if ($photo->isValid()) {
+            // Jika ada file photo baru diupload
+            $newPhotoName = $photo->getRandomName();
+            $photo->move('./path/to/upload/directory', $newPhotoName);
+            $updateData['photo'] = $newPhotoName;
+        }
+
+        // Lakukan update hanya jika ada perubahan data
+        if (!empty($updateData)) {
+            // Lakukan update menggunakan model
+            $mahasiswaModel->update($mahasiswa['NIM'], $updateData);
+
+            // Redirect dengan pesan sukses
+            return redirect()->to('/admin/dashboard')->with('success', 'Data mahasiswa berhasil diperbarui.');
+        } else {
+            // Tidak ada perubahan data yang perlu diupdate
+            return redirect()->to('/admin/dashboard')->with('info', 'Tidak ada perubahan yang dilakukan.');
+        }
+    }
+
+    public function delete()
+    {
+        $nim = $this->request->getPost('NIM');
+
+        try {
+            $mahasiswa = $this->db->table('mahasiswa')->where('NIM', $nim)->get()->getRow();
+
+            if ($mahasiswa) {
+                $this->db->table('mahasiswa')->where('NIM', $nim)->delete();
+                return redirect()->to(base_url('admin/dashboard'))->with('success', 'Mahasiswa berhasil dihapus');
+            } else {
+                return redirect()->back()->with('error', 'Gagal menghapus mahasiswa: Data tidak ditemukan');
+            }
+        } catch (\Exception $e) {
+            return redirect()->to(base_url('admin/dashboard'))->with('error', $e->getMessage());
         }
     }
 

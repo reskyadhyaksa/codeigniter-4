@@ -15,9 +15,12 @@ $routes->group('', ['filter' => AdminAuthFilter::class], function ($routes) {
     $routes->group('admin', function ($routes) {
         $routes->get('dashboard', 'AdminController::dashboard');
         $routes->get('register_user_form', 'AdminController::registerUserForm');
+        $routes->get('edit_user_form', 'AdminController::editUserForm');
         $routes->get('tambah_lomba', 'AdminController::addBeritaForm');
-
+        $routes->post('tambah_info_lomba', 'AdminController::tambahLombaAdmin');
+        $routes->post('delete_mahasiswa', 'AuthController::delete');
         $routes->post('mahasiswa/register', 'AuthController::mahasiswaRegister');
+        $routes->post('mahasiswa/edit', 'AuthController::mahasiswaEdit');
     });
 });
 

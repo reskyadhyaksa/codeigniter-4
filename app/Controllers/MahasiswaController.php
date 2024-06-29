@@ -205,4 +205,6 @@ class MahasiswaController extends BaseController
 
         return redirect()->to(base_url('/mahasiswa/edit_profile'))->with('success', 'Password berhasil diubah!');
     }
+
+    
 }

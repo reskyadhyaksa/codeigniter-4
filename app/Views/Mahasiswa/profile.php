@@ -160,13 +160,6 @@
                             <img src="<?= base_url('sidebar/assets/People.svg') ?>" alt="" class="icon img-fluid" width="70" height="70"><br>
                             <span class="fs-4 d-none d-sm-inline">TIM</span>
                         </a>
-                    </li>
-                    <li class="nav-item py-2 py-sm-0 my-4 my-sm-4 my-lg-3">
-                        <a href="#" class="nav-link text-center text-white">
-                            <img src="<?= base_url('sidebar/assets/Settings.svg') ?>" alt="" class="icon img-fluid" width="70" height="70"><br>
-                            <span class="fs-4 d-none d-sm-inline">PENGATURAN</span>
-                        </a>
-                    </li>
                     <li class="nav-item py-2 py-sm-0 my-4 my-sm-4 my-lg-3">
                         <a href="<?= base_url('auth/mahasiswa/logout') ?>" class="nav-link text-center text-white">
                             <img src="<?= base_url('sidebar/assets/Logout.svg') ?>" alt="" class="icon img-fluid" width="70" height="70"><br>

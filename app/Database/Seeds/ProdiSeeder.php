@@ -198,6 +198,8 @@ class ProdiSeeder extends Seeder
         ];
 
         // Using the Model to insert data
+        $db = \Config\Database::connect();
+        $db->table('prodi')->emptyTable();
         $this->db->table('prodi')->insertBatch($data);
     }
 }

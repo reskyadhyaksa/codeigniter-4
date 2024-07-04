@@ -14,6 +14,13 @@ service('auth')->routes($routes);
 $routes->group('', ['filter' => AdminAuthFilter::class], function ($routes) {
     $routes->group('admin', function ($routes) {
         $routes->get('dashboard', 'AdminController::dashboard');
+        $routes->get('dashboard_mahasiswa', 'AdminController::dashboard_mahasiswa_view');
+        $routes->get('dashboard_prodi', 'AdminController::dashboard_prodi_view');
+        $routes->get('dashboard_info', 'AdminController::dashboard_info_view');
+        $routes->get('dashboard_approved', 'AdminController::dashboard_approved_view');
+        $routes->get('dashboard_tim', 'AdminController::dashboard_tim_view');
+        $routes->get('dashboard_berita', 'AdminController::dashboard_berita_view');
+        
         $routes->get('register_user_form', 'AdminController::registerUserForm');
         $routes->get('edit_user_form', 'AdminController::editUserView');
         $routes->get('edit_lomba_form', 'AdminController::editLombaView');

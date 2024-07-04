@@ -18,6 +18,8 @@ class AdminSeeder extends Seeder
         ];
 
         // Using the Model to insert data
+        $db = \Config\Database::connect();
+        $db->table('admin')->emptyTable();
         $this->db->table('admin')->insert($data);
     }
 }

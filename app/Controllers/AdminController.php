@@ -148,6 +148,31 @@ class AdminController extends BaseController
         ]);
     }
 
+    
+    public function dashboard_mahasiswa_view(){
+        $mahasiswa = $this->mahasiswa->findAll();
+        $data = ['mahasiswa' => $mahasiswa];
+        return view('admin/dashboard_mahasiswa', $data);
+    }
+    
+    public function dashboard_prodi_view(){
+
+    }
+    
+    public function dashboard_info_view(){
+
+    }
+    
+    public function dashboard_approved_view(){
+
+    }
+    public function dashboard_tim_view(){
+
+    }
+    public function dashboard_berita_view(){
+
+    }
+
 
     public function registerUserForm()
     {

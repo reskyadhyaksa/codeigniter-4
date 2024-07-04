@@ -151,6 +151,20 @@ table.dataTable {
   top: 100px;
 }
 
+.body-container{
+  display: flex;
+  width: 100%;
+}
+
+.navigation-panel{
+  width: 13%;
+}
+
+.container-right{
+  padding: 20px;
+  width: 85%;
+}
+
 .read-more{
   background-color: transparent;
   color: #007bff;

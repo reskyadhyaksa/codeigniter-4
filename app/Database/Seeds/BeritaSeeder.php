@@ -22,7 +22,7 @@ class BeritaSeeder extends Seeder
                 'judul_berita' => 'Berita Pertama',
                 'created_at' => date('Y-m-d H:i:s'),
                 'isi_berita' => 'Ini adalah isi dari berita pertama.',
-                'prodi_berita' => 'TI',
+                'prodi_berita' => json_encode(['BL', 'SI', 'KD']),
                 'foto_berita' => '1719927339_6d9788cde9144aee0e58.jpg',
             ],
             [
@@ -30,7 +30,7 @@ class BeritaSeeder extends Seeder
                 'judul_berita' => 'Berita Kedua',
                 'created_at' => date('Y-m-d H:i:s'),
                 'isi_berita' => 'Ini adalah isi dari berita kedua.',
-                'prodi_berita' => 'BL',
+                'prodi_berita' => json_encode(['BL', 'SI', 'KD']),
                 'foto_berita' => '1719927339_6d9788cde9144aee0e58.jpg',
             ],
         ];

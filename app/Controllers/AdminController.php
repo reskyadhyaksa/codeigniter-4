@@ -46,6 +46,7 @@ class AdminController extends BaseController
             ->getResultArray();
 
         foreach ($approvalCompetitions as &$competition) {
+            $competition['kategori_lomba'] = strtolower($competition['kategori_lomba']);
             if ($competition['kategori_lomba'] == 'akademik') {
                 if (!empty($competition['prodi_lomba'])) {
                     $prodiLombaArray = json_decode($competition['prodi_lomba'], true);
@@ -146,31 +147,6 @@ class AdminController extends BaseController
             'nonakademik' => $nonakademik,
             'berita' => $berita,
         ]);
-    }
-
-    
-    public function dashboard_mahasiswa_view(){
-        $mahasiswa = $this->mahasiswa->findAll();
-        $data = ['mahasiswa' => $mahasiswa];
-        return view('admin/dashboard_mahasiswa', $data);
-    }
-    
-    public function dashboard_prodi_view(){
-
-    }
-    
-    public function dashboard_info_view(){
-
-    }
-    
-    public function dashboard_approved_view(){
-
-    }
-    public function dashboard_tim_view(){
-
-    }
-    public function dashboard_berita_view(){
-
     }
 
 

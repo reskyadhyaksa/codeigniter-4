@@ -15,14 +15,25 @@ $routes->group('', ['filter' => AdminAuthFilter::class], function ($routes) {
     $routes->group('admin', function ($routes) {
         $routes->get('dashboard', 'AdminController::dashboard');
         $routes->get('register_user_form', 'AdminController::registerUserForm');
-        $routes->get('edit_user_form', 'AdminController::editUserForm');
-        $routes->get('tambah_lomba', 'AdminController::addBeritaForm');
+        $routes->get('edit_user_form', 'AdminController::editUserView');
+        $routes->get('edit_lomba_form', 'AdminController::editLombaView');
+        $routes->get('tambah_lomba', 'AdminController::addLombaForm');
+        $routes->get('edit_berita', 'AdminController::editBeritaView');
+        $routes->get('tambah_berita_form', 'AdminController::addBeritaView');
+        
+        $routes->post('tambah_info_berita', 'AdminController::tambahBeritaAdmin');
         $routes->post('tambah_info_lomba', 'AdminController::tambahLombaAdmin');
+        $routes->post('edit_lomba_form', 'AdminController::EditLombaAdmin');
+        $routes->post('edit_berita_form', 'AdminController::EditBeritaAdmin');
+        $routes->post('delete_lomba_form', 'AdminController::hapusLombaAdmin');
+        $routes->post('delete_berita_form', 'AdminController::hapusBeritaAdmin');
         $routes->post('delete_mahasiswa', 'AuthController::delete');
         $routes->post('mahasiswa/register', 'AuthController::mahasiswaRegister');
         $routes->post('mahasiswa/edit', 'AuthController::mahasiswaEdit');
         $routes->post('approveLomba', 'AdminController::approveLomba');
         $routes->post('rejectLomba', 'AdminController::rejectLomba');
+        $routes->post('approveTim', 'AdminController::approveTim');
+        $routes->post('rejectTim', 'AdminController::rejectTim');
     });
 });
 
@@ -34,7 +45,10 @@ $routes->group('', ['filter' => AuthFilter::class], function ($routes) {
         $routes->get('detail_berita', 'HomeController::detail_berita');
         $routes->get('detail_lomba', 'HomeController::detail_lomba');
         $routes->get('kategori_akademik', 'HomeController::kategori_akademik');
+        $routes->get('filter_akademik', 'HomeController::filterAkademik');
+        $routes->get('filter_nonakademik', 'HomeController::filterNonAkademik');
         $routes->get('kategori_nonakademik', 'HomeController::kategori_nonakademik');
+
     });
 
     $routes->group('mahasiswa', function ($routes) {
@@ -54,6 +68,19 @@ $routes->group('', ['filter' => AuthFilter::class], function ($routes) {
         $routes->post('insert_lomba', 'FormController::insertLomba');
         $routes->post('insert_tim', 'FormController::insertTim');
     });
+    
+    $routes->group('notifikasi', function ($routes) {
+        $routes->get('get_notif', 'NotifikasiController::getNotif');
+        $routes->post('mark_read', 'NotifikasiController::markRead');
+        $routes->post('mark_read_akademik', 'NotifikasiController::markReadAkademik');
+        $routes->post('mark_read_non', 'NotifikasiController::markReadNonAkademik');
+        $routes->post('mark_read_berita', 'NotifikasiController::markReadBerita');
+        $routes->post('mark_read_detail', 'NotifikasiController::markReadDetail');
+        $routes->post('mark_read_detailberita', 'NotifikasiController::markReadBeritaDetail');
+        $routes->post('mark_read_lomba', 'NotifikasiController::markReadLomba');
+        $routes->post('mark_read_tim', 'NotifikasiController::markReadTim');
+        $routes->post('mark_read_profil', 'NotifikasiController::markReadProfil');
+    });
 });
 
 
@@ -62,3 +89,4 @@ $routes->group('auth', function ($routes) {
     $routes->post('admin/login', 'AuthController::adminLogin');
     $routes->get('mahasiswa/logout', 'AuthController::mahasiswaLogout');    
 });
+

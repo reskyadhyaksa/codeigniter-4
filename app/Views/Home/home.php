@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="<?= base_url('css/slick.css') ?>" />
     <!-- style CSS -->
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('css/navigation.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('css/responsive.css') ?>" />
 
     <script src="<?= base_url('js/auth.js') ?>" crossorigin="anonymous"></script>
@@ -33,72 +34,7 @@
 
 <body>
     <!--::header part start::-->
-    <header class="main_menu home_menu">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="<?= base_url('home') ?>">
-                            <img src="<?= base_url('img/logo.png') ?>" alt="logo" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('home') ?>">Halaman Utama</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Kategori
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?= base_url('home/kategori_akademik') ?>">Akademik</a>
-                                        <a class="dropdown-item" href="<?= base_url('home/kategori_nonakademik') ?>">Non-Akademik</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('home/berita') ?>">Berita</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Form Pengajuan
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?= base_url('form/form_lomba') ?>">Info Lomba</a>
-                                        <a class="dropdown-item" href="<?= base_url('form/form_tim') ?>">Tim Lomba</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href=""><i class="ti-bell"></i></a>
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="<?= base_url('mahasiswa/profile') ?>" class="icon-link">
-                                        <i class="ti-user"></i>
-                                    </a>
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-
-        <div class="search_input" id="search_input_box">
-            <div class="container">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
-        </div>
-    </header>
+    <?= $this->include('header') ?>
     <!-- Header part end-->
 
     <section class="banner_part">
@@ -106,26 +42,16 @@
             <div class="col-lg-12">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        <?php foreach ($beritaTop as $index => $item): ?>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? 'active' : '' ?>"></li>
+                        <?php endforeach; ?>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item align-items-center active">
-                            <a href="#">
-                                <img class="d-block w-100 center" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="First slide">
-                            </a>
-                        </div>
-                        <div class="carousel-item">
-                            <a href="#">
-                                <img class="d-block w-100" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="Second slide">
-                            </a>
-                        </div>
-                        <div class="carousel-item">
-                            <a href="#">
-                                <img class="d-block w-100" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="Third slide">
-                            </a>
-                        </div>
+                        <?php foreach ($beritaTop as $index => $item): ?>
+                            <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
+                                <img class="d-block w-100" src="<?= base_url('uploads/berita/' . $item['foto_berita']) ?>" alt="Slide <?= $index + 1 ?>" />
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -138,9 +64,6 @@
                 </div>
             </div>
         </div>
-    </section>
-    </div>
-    </div>
     </section>
     <!-- banner part stop -->
 
@@ -166,56 +89,26 @@
             <div class="row align-items-center justify-content-between">
                 <div class="col-lg-12">
                     <div class="best_product_slider owl-carousel">
-                        <a href="#">
-                            <div class="single_product_item">
-                                <img src="<?= base_url('img/poster_lomba/poster_1.png') ?>" alt="">
-                                <div class="single_product_text">
-                                    <h4>Lomba Karya Ilmiah UGM Festival</h4>
-                                    <h3>1-4 Februari 2024</h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#">
-                            <div class="single_product_item">
-                                <img src="<?= base_url('img/poster_lomba/poster_2.png') ?>" alt="">
-                                <div class="single_product_text">
-                                    <h4>Olimpiade Kedokteran</h4>
-                                    <h3>5-6 Februari 2024</h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#">
-                            <div class="single_product_item">
-                                <img src="<?= base_url('img/poster_lomba/poster_3.png') ?>" alt="">
-                                <div class="single_product_text">
-                                    <h4>Lomba Hackathon</h4>
-                                    <h3>6-7 Februari</h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="">
-                            <div class="single_product_item">
-                                <img src="<?= base_url('img/poster_lomba/poster_4.png') ?>" alt="">
-                                <div class="single_product_text">
-                                    <h4>Lomba Farmasi</h4>
-                                    <h3>11 Februari 2024</h3>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="">
-                            <div class="single_product_item">
-                                <img src="<?= base_url('img/poster_lomba/poster_5.png') ?>" alt="">
-                                <div class="single_product_text">
-                                    <h4>Lomba Kedokteran</h4>
-                                    <h3>13 Februari 2024</h3>
-                                </div>
-                            </div>
-                        </a>
+                        <?php foreach ($lombaTop as $item): ?>
+                            <form action="<?= base_url('home/detail_lomba') ?>" method="get">
+                                <a href="#" onclick="this.closest('form').submit(); return false;">
+                                    <div class="single_product_item">
+                                        <img src="<?= base_url('uploads/poster/' . $item['poster_lomba']) ?>" alt="">
+                                        <div class="single_product_text">
+                                            <h4><?= esc($item['nama_lomba']) ?></h4>
+                                            <h3><?= esc($item['tenggat_pendaftaran']) ?></h3>
+                                        </div>
+                                    </div>
+                                </a>
+                                <input type="hidden" name="lomba_id" value="<?= esc($item['lomba_id']) ?>">
+                            </form>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
     <!-- product_list part end-->
     <!-- lomba_terbaru part end -->
 
@@ -226,7 +119,7 @@
                 <div class="col-lg-8">
                     <div class="section_tittle text-center">
                         <h2>Ayo Ajukan Informasi Lomba yang Kamu Punya Disini!</h2>
-                        <a href="form_lomba.php">
+                        <a href="<?= base_url('form/form_lomba') ?>">
                             <button class="btn">Masukkan Lomba</button>
                         </a>
                     </div>
@@ -244,17 +137,17 @@
             </div>
             <div class="pilih_kategori row align-items-center justify-content-between">
                 <div class="akademik text-center">
-                    <a href="<?= base_url('kategori_akademik') ?>"></a>
-                    <img src="<?= base_url('img/poster_lomba/poster_5.png') ?>" alt="" />
-                    <h3 class="pt-4">Akademik</h3>
-                    <a href="<?= base_url('kategori_akademik') ?>" class="btn btn-primary tombol-kategori font-weight-bold">Klik Disini</a>
+                    <a href="<?= base_url('home/kategori_akademik') ?>">
+                        <img src="<?= base_url('uploads/poster/' . $headAkademik['poster_lomba']) ?>" alt="" />
+                        <h3 class="pt-4">AKADEMIK</h3>
+                        <a href="<?= base_url('home/kategori_akademik') ?>" class="btn btn-primary tombol-kategori font-weight-bold">Klik Disini</a>
                     </a>
                 </div>
                 <div class="non-akademik text-center">
                     <a href="<?= base_url('home/kategori_nonakademik') ?>">
-                        <img src="<?= base_url('img/poster_lomba/poster_8.png') ?>" alt="" />
-                        <h3 class="pt-4">Non-Akademik</h3>
-                        <a href="<?= base_url('home/kategori_nonakademik') ?>" class="btn btn-primary tombol-kategori font-weight-bold ">Klik Disini</a>
+                        <img src="<?= base_url('uploads/poster/' . $headNAkademik['poster_lomba']) ?>" alt="" />
+                        <h3 class="pt-4">NON AKADEMIK</h3>
+                        <a href="<?= base_url('home/kategori_nonakademik') ?>" class="btn btn-primary tombol-kategori font-weight-bold">Klik Disini</a>
                     </a>
                 </div>
             </div>
@@ -268,66 +161,36 @@
                 <h2 style="padding-top: 10rem" class="font-weight-bolder">BERITA TERBARU</h2>
             </div>
 
-            <div class="d-flex flex-row media pb-5">
-                <a href="#"><img src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt=""></a>
-                <div class="media-body">
-
+            <?php foreach ($beritaTop as $berita): ?>
+                <div class="d-flex flex-row media pb-5">
+                    <form action="<?= base_url('home/detail_berita') ?>" method="get" class="form-home-berita">
+                        <a href="#" onclick="this.closest('form').submit(); return false;">
+                            <img src="<?= base_url('uploads/berita/' . $berita['foto_berita']) ?>" alt="">
+                        </a>
+                            <div class="media-body"></div>
+                            <div class="description-home">
+                                <h3><?= esc($berita['judul_berita']) ?></h3>
+                                <p class="card-text"><small class="text-muted"><?= esc($berita['created_at']) ?></small></p>
+                                <p class="short-description">
+                                    <?php
+                                        $keterangan = esc($berita['isi_berita']);
+                                        $sentences = explode('.', $keterangan);
+                                        $short_keterangan = implode('.', array_slice($sentences, 0, 15)) . (count($sentences) > 4 ? '...' : '');
+                                    ?>
+                                    <div id="keteranganLomba">
+                                        <span class="short-text"><?= $short_keterangan; ?></span>
+                                    </div>
+                                </p>
+                                <p class=""><strong>Prodi:</strong> <?= implode(', ', json_decode($berita['prodi_berita'], true)) ?></p>
+                                <input type="hidden" name="berita_id" value="<?= esc($berita['berita_id']) ?>">
+                                <button type="submit" class="btn btn-link p-0">Read more</button>
+                            </div>
+                    </form>
                 </div>
-                <div>
-                    <a href="">
-                        <h3>CONTOH JUDUL BREAKING NEWS 1</h3>
-                    </a>
-                    <p class="card-text"><small class="text-muted">Sabtu, 10 Februari 2024</small></p>
-                    <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nostrum corporis id aut beatae voluptates voluptatem quaerat voluptas reiciendis accusamus?</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row media pb-5">
-                <a href="#"><img src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt=""></a>
-                <div class="media-body">
-
-                </div>
-                <div>
-                    <a href="">
-                        <h3>CONTOH JUDUL BREAKING NEWS 2</h3>
-                    </a>
-                    <p class="card-text"><small class="text-muted">Sabtu, 10 Februari 2024</small></p>
-                    <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nostrum corporis id aut beatae voluptates voluptatem quaerat voluptas reiciendis accusamus?</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row media pb-5">
-                <a href="#"><img src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt=""></a>
-                <div class="media-body">
-
-                </div>
-                <div>
-                    <a href="">
-                        <h3>CONTOH JUDUL BREAKING NEWS 3</h3>
-                    </a>
-                    <p class="card-text"><small class="text-muted">Sabtu, 10 Februari 2024</small></p>
-                    <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nostrum corporis id aut beatae voluptates voluptatem quaerat voluptas reiciendis accusamus?</p>
-                </div>
-            </div>
-
-            <div class="d-flex flex-row media pb-5">
-                <a href="#"><img src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt=""></a>
-                <div class="media-body">
-
-                </div>
-                <div>
-                    <a href="">
-                        <h3>CONTOH JUDUL BREAKING NEWS 4</h3>
-                    </a>
-                    <p class="card-text"><small class="text-muted">Sabtu, 10 Februari 2024</small></p>
-                    <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit nostrum corporis id aut beatae voluptates voluptatem quaerat voluptas reiciendis accusamus?</p>
-                </div>
-            </div>
-        </div>
-
-        </div>
+            <?php endforeach; ?>
         </div>
     </section>
+
     <!-- Berita part start -->
 
     <!-- Berita part end -->
@@ -440,6 +303,80 @@
     <script src="<?= base_url('js/mail-script.js') ?>"></script>
     <!-- custom js -->
     <script src="<?= base_url('js/custom.js') ?>"></script>
+    <script>
+        $(document).ready(function() {
+            $('#notification-toggle').click(function(event) {
+                event.preventDefault(); // Mencegah tindakan default dari tag <a>
+
+                $.ajax({
+                    url: '<?= base_url('notifikasi/get_notif') ?>',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        if (response.notifications && response.notifications.length > 0) {
+                            // Loop melalui notifikasi dan tambahkan ke konten notifikasi
+                            response.notifications.forEach(function(notif, index) {
+                                var containerClass = (index % 2 === 0) ? 'container-notif even' : 'container-notif odd';
+                                var notifHTML = `
+                                    <div class="${containerClass}">
+                                        <section class="header-title">
+                                            <section class="text-title">${notif.title_notif}</section>
+                                            <section class="date-title">${notif.created_at}</section>
+                                        </section>
+                                        <p class="isi-notif">${notif.deskripsi_notif}</p>
+                                        <form action="<?= base_url('notifikasi/mark_read') ?>" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="mark_readed" value="1">
+                                            <input type="hidden" name="notif_id" value="${notif.notif_id}">
+                                            <button type="submit" class="mark-readed">Mark as Read</button>
+                                        </form>
+                                    </div>
+                                `;
+                                notificationContent.append(notifHTML);
+                            });
+                        } else {
+                            var emptyHTML = `
+                                <div class="container-notif">
+                                    <p class="notif-kosong">Tidak ada notifikasi terbaru.</p>
+                                </div>
+                            `;
+                            notificationContent.append(emptyHTML);
+                        }
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    },
+                    error: function() {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        var errorHTML = `
+                            <div class="container-notif">
+                                <p class="isi-notif">Terjadi kesalahan saat mengambil notifikasi.</p>
+                            </div>
+                        `;
+                        notificationContent.append(errorHTML);
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    }
+                });
+            });
+
+            // Menyembunyikan notifikasi saat klik di luar elemen
+            $(document).click(function(event) {
+                var target = $(event.target);
+                if (!target.closest('#notification-popup').length && !target.closest('#notification-toggle').length) {
+                    $('#notification-popup').fadeOut('slow'); // Menggunakan animasi fadeOut
+                }
+            });
+
+            // Menyembunyikan notifikasi saat mouse keluar dari elemen
+            $('#notification-popup').mouseleave(function() {
+                $(this).fadeOut('slow'); // Menggunakan animasi fadeOut
+            });
+        });
+    </script>
 </body>
 
 </html>

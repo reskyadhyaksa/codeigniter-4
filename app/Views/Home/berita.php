@@ -24,76 +24,13 @@
     <link rel="stylesheet" href="<?= base_url('css/slick.css') ?>">
     <!-- style CSS -->
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('css/navigation.css') ?>" />
+
 </head>
 
 <body>
     <!--::header part start::-->
-    <header class="main_menu home_menu">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="<?= base_url('home') ?>">
-                            <img src="<?= base_url('img/logo.png') ?>" alt="logo" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('home') ?>">Halaman Utama</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Kategori
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?= base_url('home/kategori_akademik') ?>">Akademik</a>
-                                        <a class="dropdown-item" href="<?= base_url('home/kategori_nonakademik') ?>">Non-Akademik</a>
-                                    </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('home/berita') ?>">Berita</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Form Pengajuan
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?= base_url('form/form_lomba') ?>">Info Lomba</a>
-                                        <a class="dropdown-item" href="<?= base_url('form/form_tim') ?>">Tim Lomba</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href=""><i class="ti-bell"></i></a>
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="<?= base_url('mahasiswa/profile')?>" class="icon-link">
-                                        <i class="ti-user"></i>
-                                    </a>
-                                </a>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
-        
-        <div class="search_input" id="search_input_box">
-            <div class="container">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
-        </div>
-    </header>
+    <?= $this->include('header') ?>
     <!-- Header part end-->
 
     <!--================Home Banner Area =================-->
@@ -103,20 +40,16 @@
             <div class="col-lg-12">
                 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        <?php foreach ($beritaTop as $index => $item): ?>
+                            <li data-target="#carouselExampleIndicators" data-slide-to="<?= $index ?>" class="<?= $index == 0 ? 'active' : '' ?>"></li>
+                        <?php endforeach; ?>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="First slide" />
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="Second slide" />
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="Third slide" />
-                        </div>
+                        <?php foreach ($beritaTop as $index => $item): ?>
+                            <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
+                                <img class="d-block w-100" src="<?= base_url('uploads/berita/' . $item['foto_berita']) ?>" alt="Slide <?= $index + 1 ?>" />
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -130,202 +63,98 @@
             </div>
         </div>
     </section>
-    <!-- breadcrumb start-->
+
 
     <!--================Blog Area =================-->
     <section class="blog_area padding_top">
         <div class="container">
-            <div class="row">
+            <div class="row">                
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="#">
-                                    <h2>Raih Penghargaan Silver Prize dan Special Award dari Romania di IPITEx Thailand Inventors Day 2024</h2>
-                                </a>
-                                <p>Bangkok, Thailand – Kadet Mahasiswa Unhan RI dari Fakultas Sains dan Teknologi Pertahanan berkolaborasi dengan Fakultas Kedokteran Militer memperoleh penghargaan Silver Prize dan Special Award dari Negara Romania dalam ajang IPITEx Thailand Inventors Day 2024.
-                                    Dalam ajang tersebut, tim Kadet Mahasiswa Unhan RI dipimpin oleh Kaprodi Informatika Kolonel Inf Adam Mardamsyah, M. Han. Prestasi . . .</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Informatika, Kedokteran</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="#">
-                                    <h2>Raih Penghargaan Silver Prize dan Special Award dari Romania di IPITEx Thailand Inventors Day 2024</h2>
-                                </a>
-                                <p>Bangkok, Thailand – Kadet Mahasiswa Unhan RI dari Fakultas Sains dan Teknologi Pertahanan berkolaborasi dengan Fakultas Kedokteran Militer memperoleh penghargaan Silver Prize dan Special Award dari Negara Romania dalam ajang IPITEx Thailand Inventors Day 2024.
-                                    Dalam ajang tersebut, tim Kadet Mahasiswa Unhan RI dipimpin oleh Kaprodi Informatika Kolonel Inf Adam Mardamsyah, M. Han. Prestasi . . .</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Informatika, Kedokteran</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="#">
-                                    <h2>Raih Penghargaan Silver Prize dan Special Award dari Romania di IPITEx Thailand Inventors Day 2024</h2>
-                                </a>
-                                <p>Bangkok, Thailand – Kadet Mahasiswa Unhan RI dari Fakultas Sains dan Teknologi Pertahanan berkolaborasi dengan Fakultas Kedokteran Militer memperoleh penghargaan Silver Prize dan Special Award dari Negara Romania dalam ajang IPITEx Thailand Inventors Day 2024.
-                                    Dalam ajang tersebut, tim Kadet Mahasiswa Unhan RI dipimpin oleh Kaprodi Informatika Kolonel Inf Adam Mardamsyah, M. Han. Prestasi . . .</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Informatika, Kedokteran</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="#">
-                                    <h2>Raih Penghargaan Silver Prize dan Special Award dari Romania di IPITEx Thailand Inventors Day 2024</h2>
-                                </a>
-                                <p>Bangkok, Thailand – Kadet Mahasiswa Unhan RI dari Fakultas Sains dan Teknologi Pertahanan berkolaborasi dengan Fakultas Kedokteran Militer memperoleh penghargaan Silver Prize dan Special Award dari Negara Romania dalam ajang IPITEx Thailand Inventors Day 2024.
-                                    Dalam ajang tersebut, tim Kadet Mahasiswa Unhan RI dipimpin oleh Kaprodi Informatika Kolonel Inf Adam Mardamsyah, M. Han. Prestasi . . .</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Informatika, Kedokteran</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <article class="blog_item">
-                            <div class="blog_item_img">
-                                <img class="card-img rounded-0" src="<?= base_url('img/pemenang_lomba/thailand.png') ?>" alt="">
-                                <a href="#" class="blog_item_date">
-                                    <h3>15</h3>
-                                    <p>Jan</p>
-                                </a>
-                            </div>
-
-                            <div class="blog_details">
-                                <a class="d-inline-block" href="#">
-                                    <h2>Raih Penghargaan Silver Prize dan Special Award dari Romania di IPITEx Thailand Inventors Day 2024</h2>
-                                </a>
-                                <p>Bangkok, Thailand – Kadet Mahasiswa Unhan RI dari Fakultas Sains dan Teknologi Pertahanan berkolaborasi dengan Fakultas Kedokteran Militer memperoleh penghargaan Silver Prize dan Special Award dari Negara Romania dalam ajang IPITEx Thailand Inventors Day 2024.
-                                    Dalam ajang tersebut, tim Kadet Mahasiswa Unhan RI dipimpin oleh Kaprodi Informatika Kolonel Inf Adam Mardamsyah, M. Han. Prestasi . . .</p>
-                                <ul class="blog-info-link">
-                                    <li><a href="#"><i class="far fa-user"></i> Informatika, Kedokteran</a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-                                </ul>
-                            </div>
-                        </article>
-
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
+                        <?php if (empty($berita)): ?>
+                            <p>No news available for the selected program of study.</p>
+                        <?php else: ?>
+                            <?php foreach ($berita as $b): ?>
+                                <article class="blog_item">
+                                <div class="blog_item_img">
+                                    <img class="card-img rounded-0" src="<?= base_url('uploads/berita/' . esc($b['foto_berita'])) ?>" alt="">
+                                    <a href="#" class="blog_item_date" onclick="document.getElementById('form-<?= $b['berita_id'] ?>').submit(); return false;">
+                                        <h3><?= date('d', strtotime($b['created_at'])) ?></h3>
+                                        <p><?= date('M', strtotime($b['created_at'])) ?></p>
                                     </a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link">1</a>
-                                </li>
-                                <li class="page-item active">
-                                    <a href="#" class="page-link">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                                </div>
+
+                                <div class="blog_details">
+                                    <form id="form-<?= $b['berita_id'] ?>" action="<?= base_url('home/detail_berita') ?>" method="get">
+                                        <input type="hidden" name="berita_id" value="<?= esc($b['berita_id']) ?>">
+                                        <a class="d-inline-block" href="#" onclick="document.getElementById('form-<?= $b['berita_id'] ?>').submit(); return false;">
+                                            <h2><?= esc($b['judul_berita']); ?></h2>
+                                        </a>
+                                    </form>
+                                    <p>
+                                        <?php
+                                            $keterangan = esc($b['isi_berita']);
+                                            $sentences = explode('.', $keterangan);
+                                            $short_keterangan = implode('.', array_slice($sentences, 0, 15)) . (count($sentences) > 4 ? '...' : '');
+                                        ?>
+                                        <div id="keteranganLomba">
+                                            <span class="short-text"><?= $short_keterangan; ?></span>
+                                        </div>
+                                    </p>
+                                    <ul class="blog-info-link">
+                                        <form id="form-<?= $b['berita_id'] ?>-prodi" action="<?= base_url('home/detail_berita') ?>" method="get">
+                                            <input type="hidden" name="berita_id" value="<?= esc($b['berita_id']) ?>">
+                                            <li><a href="#" onclick="document.getElementById('form-<?= $b['berita_id'] ?>-prodi').submit(); return false;"><i class="far fa-user"></i> <?= esc($b['prodi_berita']); ?></a></li>
+                                        </form>
+                                    </ul>
+                                </div>
+                            </article>
+
+                            <?php endforeach; ?>
+
+                            <nav aria-label="Page navigation">
+                                <?= $pager->links() ?>                            
+                            </nav>
+                        <?php endif; ?>
                     </div>
                 </div>
+
+
+
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
-                        <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword' onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="button"><i class="ti-search"></i></button>
-                                        </div>
+                    <aside class="single_sidebar_widget search_widget">
+                        <form action="<?= base_url('home/berita') ?>" method="get">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="keyword" placeholder="Search Keyword" value="<?= esc($keyword) ?>" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit"><i class="ti-search"></i></button>
                                     </div>
                                 </div>
-                                <button class="button rounded-0 primary-bg text-black w-100 btn_1" type="submit">Search</button>
-                            </form>
-                        </aside>
+                            </div>
+                            <button class="button rounded-0 primary-bg text-black w-100 btn_1" type="submit">Search</button>
+                        </form>
+                    </aside>
+
 
                         <aside class="single_sidebar_widget post_category_widget">
                             <h4 class="widget_title">Category</h4>
-                            <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Kedokteran</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Informatika</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Farmasi</p>
-                                        <p>(03)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Biologi</p>
-                                        <p>(11)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Kimia</p>
-                                        <p>(21)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Fisika</p>
-                                        <p>(09)</p>
-                                    </a>
-                                </li>
-                            </ul>
+
+                            <div class="cat-list-container">
+                                <ul class="list cat-list">
+                                    <?php foreach ($prodi as $p): ?>
+                                        <li>
+                                        <form action="<?= base_url('home/berita') ?>" method="get">
+                                            <input type="hidden" name="prodi_id" value="<?= esc($p['prodi_id']); ?>">
+                                            <button type="submit" class="d-flex btn btn-link">
+                                                <p><?= esc($p['nama_prodi']); ?></p>
+                                            </button>
+                                        </form>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
                         </aside>
                     </div>
                 </div>
@@ -443,6 +272,80 @@
     <script src="<?= base_url('js/mail-script.js') ?>"></script>
     <!-- custom js -->
     <script src="<?= base_url('js/custom.js') ?>"></script>
+    <script>
+        $(document).ready(function() {
+            $('#notification-toggle').click(function(event) {
+                event.preventDefault(); // Mencegah tindakan default dari tag <a>
+
+                $.ajax({
+                    url: '<?= base_url('notifikasi/get_notif') ?>',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        if (response.notifications && response.notifications.length > 0) {
+                            // Loop melalui notifikasi dan tambahkan ke konten notifikasi
+                            response.notifications.forEach(function(notif, index) {
+                                var containerClass = (index % 2 === 0) ? 'container-notif even' : 'container-notif odd';
+                                var notifHTML = `
+                                    <div class="${containerClass}">
+                                        <section class="header-title">
+                                            <section class="text-title">${notif.title_notif}</section>
+                                            <section class="date-title">${notif.created_at}</section>
+                                        </section>
+                                        <p class="isi-notif">${notif.deskripsi_notif}</p>
+                                        <form action="<?= base_url('notifikasi/mark_read_berita') ?>" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="mark_readed" value="1">
+                                            <input type="hidden" name="notif_id" value="${notif.notif_id}">
+                                            <button type="submit" class="mark-readed">Mark as Read</button>
+                                        </form>
+                                    </div>
+                                `;
+                                notificationContent.append(notifHTML);
+                            });
+                        } else {
+                            var emptyHTML = `
+                                <div class="container-notif">
+                                    <p class="notif-kosong">Tidak ada notifikasi terbaru.</p>
+                                </div>
+                            `;
+                            notificationContent.append(emptyHTML);
+                        }
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    },
+                    error: function() {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        var errorHTML = `
+                            <div class="container-notif">
+                                <p class="isi-notif">Terjadi kesalahan saat mengambil notifikasi.</p>
+                            </div>
+                        `;
+                        notificationContent.append(errorHTML);
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    }
+                });
+            });
+
+            // Menyembunyikan notifikasi saat klik di luar elemen
+            $(document).click(function(event) {
+                var target = $(event.target);
+                if (!target.closest('#notification-popup').length && !target.closest('#notification-toggle').length) {
+                    $('#notification-popup').fadeOut('slow'); // Menggunakan animasi fadeOut
+                }
+            });
+
+            // Menyembunyikan notifikasi saat mouse keluar dari elemen
+            $('#notification-popup').mouseleave(function() {
+                $(this).fadeOut('slow'); // Menggunakan animasi fadeOut
+            });
+        });
+    </script>
 </body>
 
 </html>

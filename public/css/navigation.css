@@ -1,0 +1,127 @@
+.notif-pop{
+    position: absolute;
+    top: 62.5px;
+    right: 1px;
+    background: #91DDCF;
+    width: 300px;
+    height: 200px;
+    display: none;
+    flex-direction: column;
+    overflow-y: scroll;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar styles */
+.notif-pop::-webkit-scrollbar {
+    width: 10px;
+}
+
+.notif-pop::-webkit-scrollbar-track {
+    background: #E8C5E5;
+    border-radius: 10px;
+}
+
+.notif-pop::-webkit-scrollbar-thumb {
+    background: #F19ED2;
+    border-radius: 10px;
+}
+
+.notif-pop::-webkit-scrollbar-thumb:hover {
+    background: #F7F9F2;
+}
+
+.notif-title{
+    padding: 10px;
+    text-align: center;
+    align-items: center;
+    border-bottom: 1px solid #F7F9F2;
+    margin-bottom: 0px;
+    font-weight: 700;
+}
+
+.header-title{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 12px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.text-title{
+    font-weight: 700;
+}
+
+.mark-readed{
+    font-style: italic;
+    text-decoration: underline;
+    font-size: 10px;
+    line-height: 12px;
+    background: transparent;
+    font-weight: 500;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border: none;
+}
+
+.mark-readed:hover{
+    scale: 105%;
+}
+
+.date-title{
+    font-size: 12px;
+    line-height: 12px;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.isi-notif{
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.container-notif:nth-child(even) {
+    background-color: #91DDCF;
+}
+
+.container-notif:nth-child(odd) {
+    background-color: #E8C5E5;
+}
+
+.notif-kosong{
+    text-align: center;
+    font-weight: 700;
+    margin-top: 25px;
+}
+
+.notification-count{
+    position: absolute;
+    z-index: 10;
+    right: 6px;
+    top: -10px;
+    font-weight: 600;
+    background: #E8C5E5;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    width: 20px;
+    font-size: 10px;
+    border-radius: 9999px;
+    border: 1px solid #fff;
+}
+
+.penjelasan-berita{
+    height: 10px;
+    overflow: hidden;
+}
+

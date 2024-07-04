@@ -54,7 +54,7 @@
             <div class="form-group mb-3">
                 <label for="nama_lengkap">Nama Lengkap</label>
                 <input type="text" name="nama_lengkap" class="form-control" placeholder="Nama Lengkap Mahasiswa" aria-label="nama_lengkap" required>
-            </div>
+            </div>   
             <div class="form-group">
                 <label for="email">Email address</label>
                 <input type="email" name="email" class="form-control" id="email" aria-describedby="email" placeholder="Masukkan email mahasiswa" required>

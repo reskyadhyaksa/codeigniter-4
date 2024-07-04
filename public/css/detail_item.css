@@ -1,0 +1,135 @@
+.detail_parent{
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: hidden;
+    width: 100%;
+}
+
+.detail_container{
+    margin-top: 20px;
+    background-color: #C1DCDC;
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    height: 70%;
+    padding: 2.5rem;
+    gap: 20px;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.nama_lomba{
+    font-weight: 800;
+    color:#232323;
+}
+
+.tenggat{
+    font-weight:700;
+    font-size: 20px;
+    color: #808080;
+}
+
+.other-detail{
+    font-weight: 600;
+    font-size: 14px;
+    color: #232323;
+}
+
+.detail_poster{
+    width: 300px;
+}
+
+.detail-foto-lomba{
+    width: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.keterangan_lomba{
+    padding: 10px;
+    height: 200px;
+    width: 1000px;
+    overflow-y: auto;
+    color: #232323;
+    background: #91DDCF;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.keterangan_lomba::-webkit-scrollbar {
+    width: 10px;
+}
+
+.keterangan_lomba::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 10px;
+}
+
+.keterangan_lomba::-webkit-scrollbar-thumb {
+    background: #F19ED2;
+    border-radius: 10px;
+}
+
+.keterangan_lomba::-webkit-scrollbar-thumb:hover {
+    background: #F19ED2;
+}
+
+.container-tanggal-lomba{
+    display: flex;
+    gap: 3px;
+}
+
+.radio-group{
+    display: flex;
+}
+.container-tanggal-lomba h5{
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.tanggal-pendaftaran{
+    font-size:15px;
+    font-weight: 400;
+
+}
+
+.judul-berita{
+    font-weight: 800;
+}
+
+.nama-prodi{
+    font-weight: 500;
+    font-style: italic;
+    color: #A9A9A9;
+}
+
+@media (max-width: 600px) {
+    .detail_parent{
+        margin-top: 50px;
+        height: 1500px;
+        align-items: start;
+        justify-content: center;
+    }
+    .detail_container{
+        display: flex;
+        height: fit-content;
+        flex-direction: column;
+    }
+    .detail_poster{
+        width: 200px;
+    }
+    .keterangan_lomba{
+        height: 200px;
+        padding: 0;
+        width: 100%;
+        overflow-y: auto;
+        background-color: transparent;
+        color: #232323;
+        border-radius: 2px;
+        margin-bottom: 10px;
+    }
+}

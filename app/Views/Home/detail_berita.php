@@ -27,78 +27,87 @@
     <!-- style CSS -->
     <link rel="stylesheet" href="<?= base_url('css/style.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('css/responsive.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('css/navigation.css') ?>" />
+    <link rel="stylesheet" href="<?= base_url('css/detail_berita.css') ?>" />
+
 </head>
 
 <body>
     <!--::header part start::-->
-    <header class="main_menu home_menu">
+    <?= $this->include('header') ?>
+    <!-- Header part end-->
+    
+    <section class="blog_area padding_top">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="<?= base_url('home') ?>">
-                            <img src="<?= base_url('img/logo.png') ?>" alt="logo" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="menu_icon"><i class="fas fa-bars"></i></span>
-                        </button>
+            <div class="row">                
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="blog_left_sidebar">
+                        <img src="<?= base_url('uploads/berita/' . $berita['foto_berita']) ?>" class="detail_poster">
+                        <hr class="line"/>
+                        <h3 class="judul-berita"><?= esc($berita['judul_berita'])?></h3>
+                        <h5 class="nama-prodi"><?= esc($berita['nama_prodi'])?></h5>
+                        <h5 class="tanggal-berita">
+                            <?php
+                                $day = $days[date('l', strtotime($berita['created_at']))];
+                                $date = date('d', strtotime($berita['created_at']));
+                                $month = $months[date('F', strtotime($berita['created_at']))];
+                                $year = date('Y', strtotime($berita['created_at']));
+                                
+                                echo "$day, $date $month $year";
+                                ?>
+                        </h5>
+                        <hr class="line"/>
+                        <p class="isi-berita">
+                            <?php foreach ($berita['isi_berita'] as $paragraph): ?>
+                                <p><?= $paragraph ?></p>
+                            <?php endforeach; ?>
+                        </p>
+                    </div>
+                </div>
 
-                        <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('home') ?>">Halaman Utama</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Kategori
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?= base_url('home/kategori_akademik') ?>">Akademik</a>
-                                        <a class="dropdown-item" href="<?= base_url('home/kategori_nonakademik') ?>">Non-Akademik</a>
+
+
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget search_widget">
+                        <form action="<?= base_url('home/berita') ?>" method="get">
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" name="keyword" placeholder="Search Keyword" value="<?= esc($keyword) ?>" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Search Keyword'">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="submit"><i class="ti-search"></i></button>
                                     </div>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?= base_url('home/berita') ?>">Berita</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Form Pengajuan
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="<?= base_url('form/form_lomba') ?>">Info Lomba</a>
-                                        <a class="dropdown-item" href="<?= base_url('form/form_tim') ?>">Tim Lomba</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="hearer_icon d-flex">
-                            <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <a href=""><i class="ti-bell"></i></a>
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <a href="<?= base_url('mahasiswa/profile')?>" class="icon-link">
-                                        <i class="ti-user"></i>
-                                    </a>
-                                </a>
+                                </div>
                             </div>
-                        </div>
-                    </nav>
+                            <button class="button rounded-0 primary-bg text-black w-100 btn_1" type="submit">Search</button>
+                        </form>
+                    </aside>
+
+
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <h4 class="widget_title">Category</h4>
+
+                            <div class="cat-list-container">
+                                <ul class="list cat-list">
+                                    <?php foreach ($prodi as $p): ?>
+                                        <li>
+                                        <form action="<?= base_url('home/berita') ?>" method="get">
+                                            <input type="hidden" name="prodi_id" value="<?= esc($p['prodi_id']); ?>">
+                                            <button type="submit" class="d-flex btn btn-link">
+                                                <p><?= esc($p['nama_prodi']); ?></p>
+                                            </button>
+                                        </form>
+                                        </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </aside>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="search_input" id="search_input_box">
-            <div class="container">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
-            </div>
-        </div>
-    </header>
-    <!-- Header part end-->
-
+    </section>
+    
     <!--::footer_part start::-->
     <footer class="footer_part">
         <div class="container">
@@ -207,6 +216,80 @@
     <script src="<?= base_url('js/mail-script.js') ?>"></script>
     <!-- custom js -->
     <script src="<?= base_url('js/custom.js') ?>"></script>
+    <script>
+        $(document).ready(function() {
+            $('#notification-toggle').click(function(event) {
+                event.preventDefault(); // Mencegah tindakan default dari tag <a>
+
+                $.ajax({
+                    url: '<?= base_url('notifikasi/get_notif') ?>',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        if (response.notifications && response.notifications.length > 0) {
+                            // Loop melalui notifikasi dan tambahkan ke konten notifikasi
+                            response.notifications.forEach(function(notif, index) {
+                                var containerClass = (index % 2 === 0) ? 'container-notif even' : 'container-notif odd';
+                                var notifHTML = `
+                                    <div class="${containerClass}">
+                                        <section class="header-title">
+                                            <section class="text-title">${notif.title_notif}</section>
+                                            <section class="date-title">${notif.created_at}</section>
+                                        </section>
+                                        <p class="isi-notif">${notif.deskripsi_notif}</p>
+                                        <form action="<?= base_url('notifikasi/mark_read_detailberita') ?>" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="mark_readed" value="1">
+                                            <input type="hidden" name="notif_id" value="${notif.notif_id}">
+                                            <button type="submit" class="mark-readed">Mark as Read</button>
+                                        </form>
+                                    </div>
+                                `;
+                                notificationContent.append(notifHTML);
+                            });
+                        } else {
+                            var emptyHTML = `
+                                <div class="container-notif">
+                                    <p class="notif-kosong">Tidak ada notifikasi terbaru.</p>
+                                </div>
+                            `;
+                            notificationContent.append(emptyHTML);
+                        }
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    },
+                    error: function() {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        var errorHTML = `
+                            <div class="container-notif">
+                                <p class="isi-notif">Terjadi kesalahan saat mengambil notifikasi.</p>
+                            </div>
+                        `;
+                        notificationContent.append(errorHTML);
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    }
+                });
+            });
+
+            // Menyembunyikan notifikasi saat klik di luar elemen
+            $(document).click(function(event) {
+                var target = $(event.target);
+                if (!target.closest('#notification-popup').length && !target.closest('#notification-toggle').length) {
+                    $('#notification-popup').fadeOut('slow'); // Menggunakan animasi fadeOut
+                }
+            });
+
+            // Menyembunyikan notifikasi saat mouse keluar dari elemen
+            $('#notification-popup').mouseleave(function() {
+                $(this).fadeOut('slow'); // Menggunakan animasi fadeOut
+            });
+        });
+    </script>
 </body>
 
 </html>

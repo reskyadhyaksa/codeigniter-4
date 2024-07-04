@@ -38,6 +38,7 @@ class Admin extends Migration
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
+                
             ],
         ]);
 

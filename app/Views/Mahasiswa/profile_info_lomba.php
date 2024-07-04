@@ -26,76 +26,12 @@
   <link rel="stylesheet" href="<?= base_url('css/style.css') ?>" />
   <link rel="stylesheet" href="<?= base_url('css/responsive.css') ?>" />
   <link rel="stylesheet" href="<?= base_url('css/profile.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('css/navigation.css') ?>" />
 
 </head>
 
 <body>
-  <header class="main_menu home_menu">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="<?= base_url('home') ?>">
-              <img src="<?= base_url('img/logo.png') ?>" alt="logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="menu_icon"><i class="fas fa-bars"></i></span>
-            </button>
-
-            <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('home') ?>">Halaman Utama</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Kategori
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="<?= base_url('home/kategori_akademik') ?>">Akademik</a>
-                    <a class="dropdown-item" href="<?= base_url('home/kategori_nonakademik') ?>">Non-Akademik</a>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('home/berita') ?>">Berita</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Form Pengajuan
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="<?= base_url('form/form_lomba') ?>">Info Lomba</a>
-                    <a class="dropdown-item" href="<?= base_url('form/form_tim') ?>">Tim Lomba</a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="hearer_icon d-flex">
-              <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-              <a href=""><i class="ti-bell"></i></a>
-              <div class="dropdown cart">
-                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <a href="<?= base_url('mahasiswa/profile') ?>" class="icon-link">
-                    <i class="ti-user"></i>
-                  </a>
-                </a>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <div class="search_input" id="search_input_box">
-      <div class="container">
-        <form class="d-flex justify-content-between search-inner">
-          <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-          <button type="submit" class="btn"></button>
-          <span class="ti-close" id="close_search" title="Close Search"></span>
-        </form>
-      </div>
-    </div>
-  </header>
+  <?= $this->include('header') ?>
 
   <div class="container-fluid">
     <div class="row flex-wrap">
@@ -117,12 +53,6 @@
             <a href="<?= base_url('mahasiswa/profile_tim_lomba') ?>" class="nav-link text-center text-white">
               <img src="<?= base_url('sidebar/assets/People.svg') ?>" alt="" class="icon img-fluid" width="70" height="70"><br>
               <span class="fs-4 d-none d-sm-inline">TIM</span>
-            </a>
-          </li>
-          <li class="nav-item py-2 py-sm-0 my-4 my-sm-4 my-lg-3">
-            <a href="#" class="nav-link text-center text-white">
-              <img src="<?= base_url('sidebar/assets/Settings.svg') ?>" alt="" class="icon img-fluid" width="70" height="70"><br>
-              <span class="fs-4 d-none d-sm-inline">PENGATURAN</span>
             </a>
           </li>
           <li class="nav-item py-2 py-sm-0 my-4 my-sm-4 my-lg-3">
@@ -157,16 +87,16 @@
                   $style = '';
                   switch ($status) {
                     case 0:
-                      $style = 'red';
-                      $text = 'Tidak Disetujui';
-                      break;
-                    case 1:
                       $style = 'orange';
                       $text = 'Pending';
                       break;
-                    case 2:
+                    case 1:
                       $style = 'green';
                       $text = 'Disetujui';
+                      break;
+                    case 2:
+                      $style = 'red';
+                      $text = 'Tidak Disetujui';
                       break;
                   }
                   ?>
@@ -291,6 +221,80 @@
   <script src="<?= base_url('js/mail-script.js') ?>"></script>
   <!-- custom js -->
   <script src="<?= base_url('js/custom.js') ?>"></script>
+  <script>
+    $(document).ready(function() {
+        $('#notification-toggle').click(function(event) {
+          event.preventDefault(); // Mencegah tindakan default dari tag <a>
+
+          $.ajax({
+            url: '<?= base_url('notifikasi/get_notif') ?>',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var notificationContent = $('#notification-content');
+                notificationContent.empty(); // Kosongkan konten notifikasi
+
+                if (response.notifications && response.notifications.length > 0) {
+                    // Loop melalui notifikasi dan tambahkan ke konten notifikasi
+                    response.notifications.forEach(function(notif, index) {
+                        var containerClass = (index % 2 === 0) ? 'container-notif even' : 'container-notif odd';
+                        var notifHTML = `
+                            <div class="${containerClass}">
+                                <section class="header-title">
+                                    <section class="text-title">${notif.title_notif}</section>
+                                    <section class="date-title">${notif.created_at}</section>
+                                </section>
+                                <p class="isi-notif">${notif.deskripsi_notif}</p>
+                                <form action="<?= base_url('notifikasi/mark_read_akademik') ?>" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="mark_readed" value="1">
+                                    <input type="hidden" name="notif_id" value="${notif.notif_id}">
+                                    <button type="submit" class="mark-readed">Mark as Read</button>
+                                </form>
+                            </div>
+                        `;
+                        notificationContent.append(notifHTML);
+                    });
+                } else {
+                    var emptyHTML = `
+                        <div class="container-notif">
+                            <p class="notif-kosong">Tidak ada notifikasi terbaru.</p>
+                        </div>
+                    `;
+                    notificationContent.append(emptyHTML);
+                }
+
+                $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+            },
+            error: function() {
+                var notificationContent = $('#notification-content');
+                notificationContent.empty(); // Kosongkan konten notifikasi
+
+                var errorHTML = `
+                    <div class="container-notif">
+                        <p class="isi-notif">Terjadi kesalahan saat mengambil notifikasi.</p>
+                    </div>
+                `;
+                notificationContent.append(errorHTML);
+
+                $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+            }
+          });
+        });
+
+        // Menyembunyikan notifikasi saat klik di luar elemen
+        $(document).click(function(event) {
+            var target = $(event.target);
+            if (!target.closest('#notification-popup').length && !target.closest('#notification-toggle').length) {
+                $('#notification-popup').fadeOut('slow'); // Menggunakan animasi fadeOut
+            }
+        });
+
+        // Menyembunyikan notifikasi saat mouse keluar dari elemen
+        $('#notification-popup').mouseleave(function() {
+            $(this).fadeOut('slow'); // Menggunakan animasi fadeOut
+        });
+    });
+  </script>
 </body>
 
 </html>

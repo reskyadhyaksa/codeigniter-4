@@ -24,76 +24,13 @@
   <link rel="stylesheet" href="<?= base_url('css/slick.css') ?>">
   <!-- style CSS -->
   <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('css/navigation.css') ?>" />
+
 </head>
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="<?= base_url('home') ?>">
-              <img src="<?= base_url('img/logo.png') ?>" alt="logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="menu_icon"><i class="fas fa-bars"></i></span>
-            </button>
-
-            <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('home') ?>">Halaman Utama</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Kategori
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="<?= base_url('home/kategori_akademik') ?>">Akademik</a>
-                    <a class="dropdown-item" href="<?= base_url('home/kategori_nonakademik') ?>">Non-Akademik</a>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('home/berita') ?>">Berita</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Form Pengajuan
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="<?= base_url('form/form_lomba') ?>">Info Lomba</a>
-                    <a class="dropdown-item" href="<?= base_url('form/form_tim') ?>">Tim Lomba</a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="hearer_icon d-flex">
-              <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-              <a href=""><i class="ti-bell"></i></a>
-              <div class="dropdown cart">
-                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <a href="<?= base_url('mahasiswa/profile') ?>" class="icon-link">
-                    <i class="ti-user"></i>
-                  </a>
-                </a>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <div class="search_input" id="search_input_box">
-      <div class="container">
-        <form class="d-flex justify-content-between search-inner">
-          <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-          <button type="submit" class="btn"></button>
-          <span class="ti-close" id="close_search" title="Close Search"></span>
-        </form>
-      </div>
-    </div>
-  </header>
+  <?= $this->include('header') ?>
   <!-- Header part end-->
 
   <section class="form">
@@ -124,7 +61,7 @@
           <input type="text" name="nama_lomba" id="nama_lomba" placeholder="Cantumkan Nama Lomba">
         </div>
         <div class="kategori_lomba-box">
-          <h3>Kategori Lomba</h3>
+          <label class="label_kategori">Kategori Lomba</label>
           <div class="kategori_lomba-option">
             <div class="kategori_lomba">
               <input type="radio" id="Akademik" name="kategori_lomba" value="akademik" checked>
@@ -136,6 +73,54 @@
             </div>
           </div>
         </div>
+
+        <div class="input-box">
+          <label>Prodi Lomba</label>
+          <p>Select 1 or More</p>
+          
+          <div id="akademik-options">
+            <select class="custom-select mt-1 rounded-left rounded-left-bottom" name="prodi_id[]" id="inputGroupSelect01">
+                <option selected disabled>Choose...</option>
+                <?php foreach ($prodi as $row) : ?>
+                    <option value="<?= $row['prodi_id'] ?>" name="prodi_id"><?= $row['nama_prodi'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="custom-select mt-3 rounded-left rounded-left-bottom" name="prodi_id[]" id="inputGroupSelect01">
+                <option selected disabled>Optional...</option>
+                <?php foreach ($prodi as $row) : ?>
+                    <option value="<?= $row['prodi_id'] ?>" name="prodi_id"><?= $row['nama_prodi'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="custom-select mt-3 rounded-left rounded-left-bottom" name="prodi_id[]" id="inputGroupSelect01">
+                <option selected disabled>Optional...</option>
+                <?php foreach ($prodi as $row) : ?>
+                    <option value="<?= $row['prodi_id'] ?>" name="prodi_id"><?= $row['nama_prodi'] ?></option>
+                <?php endforeach; ?>
+            </select>
+          </div>
+          
+          <div id="non-akademik-options" style="display: none;">
+            <select class="custom-select mt-1 rounded-left rounded-left-bottom" name="non_id[]" id="inputGroupSelect02">
+                <option selected disabled>Choose...</option>
+                <?php foreach ($nonakademik as $row) : ?>
+                    <option value="<?= $row['non_id'] ?>" name="non_id"><?= $row['nama_non'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="custom-select mt-3 rounded-left rounded-left-bottom" name="non_id[]" id="inputGroupSelect02">
+                <option selected disabled>Optional...</option>
+                <?php foreach ($nonakademik as $row) : ?>
+                    <option value="<?= $row['non_id'] ?>" name="non_id"><?= $row['nama_non'] ?></option>
+                <?php endforeach; ?>
+            </select>
+            <select class="custom-select mt-3 rounded-left rounded-left-bottom" name="non_id[]" id="inputGroupSelect02">
+                <option selected disabled>Optional...</option>
+                <?php foreach ($nonakademik as $row) : ?>
+                    <option value="<?= $row['non_id'] ?>" name="non_id"><?= $row['nama_non'] ?></option>
+                <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+
         <div class="input-box">
           <label>Deadline Pendaftaran</label>
           <input type="date" name="tenggat_pendaftaran" id="tenggat_pendaftaran">
@@ -149,8 +134,8 @@
           <input type="date" name="tanggal_selesai" id="tanggal_selesai">
         </div>
         <div class="input-box">
-          <label>Link Resmi Lomba</label>
-          <input type="text" name="link_lomba" id="link_lomba" placeholder="">
+          <label>Penyelenggara Lomba</label>
+          <input type="text" name="penyelenggara_lomba" id="penyelenggara_lomba" placeholder="">
         </div>
         <div class="input-box">
           <label>Keterangan Lomba</label>
@@ -251,30 +236,103 @@
   <!--::footer_part end::-->
 
   <!-- jquery plugins here-->
-  <!-- jquery -->
   <script src="<?= base_url('js/jquery-1.12.1.min.js') ?>"></script>
-  <!-- popper js -->
-  <script src="<?= base_url('js/popper.min.js') ?>"></script>
-  <!-- bootstrap js -->
-  <script src="<?= base_url('js/bootstrap.min.js') ?>"></script>
-  <!-- easing js -->
-  <script src="<?= base_url('js/jquery.magnific-popup.js') ?>"></script>
-  <!-- swiper js -->
-  <script src="<?= base_url('js/swiper.min.js') ?>"></script>
-  <!-- swiper js -->
-  <script src="<?= base_url('js/masonry.pkgd.js') ?>"></script>
-  <!-- particles js -->
-  <script src="<?= base_url('js/owl.carousel.min.js') ?>"></script>
-  <script src="<?= base_url('js/jquery.nice-select.min.js') ?>"></script>
-  <!-- slick js -->
-  <script src="<?= base_url('js/slick.min.js') ?>"></script>
-  <script src="<?= base_url('js/jquery.counterup.min.js') ?>"></script>
-  <script src="<?= base_url('js/waypoints.min.js') ?>"></script>
-  <script src="<?= base_url('js/contact.js') ?>"></script>
-  <script src="<?= base_url('js/jquery.ajaxchimp.min.js') ?>"></script>
-  <script src="<?= base_url('js/jquery.form.js') ?>"></script>
-  <script src="<?= base_url('js/jquery.validate.min.js') ?>"></script>
-  <script src="<?= base_url('js/mail-script.js') ?>"></script>
+
+  <script>
+    document.querySelectorAll('input[name="kategori_lomba"]').forEach((elem) => {
+      elem.addEventListener("change", function(event) {
+        var akademikOptions = document.getElementById('akademik-options');
+        var nonAkademikOptions = document.getElementById('non-akademik-options');
+        
+        if (event.target.value === 'akademik') {
+          akademikOptions.style.display = 'block';
+          nonAkademikOptions.style.display = 'none';
+        } else {
+          akademikOptions.style.display = 'none';
+          nonAkademikOptions.style.display = 'block';
+        }
+      });
+    });
+
+    // Trigger change event on page load to ensure correct options are displayed
+    document.querySelector('input[name="kategori_lomba"]:checked').dispatchEvent(new Event('change'));
+  </script>
+
+  <script>
+        $(document).ready(function() {
+            $('#notification-toggle').click(function(event) {
+                event.preventDefault(); // Mencegah tindakan default dari tag <a>
+
+                $.ajax({
+                    url: '<?= base_url('notifikasi/get_notif') ?>',
+                    method: 'GET',
+                    dataType: 'json',
+                    success: function(response) {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        if (response.notifications && response.notifications.length > 0) {
+                            // Loop melalui notifikasi dan tambahkan ke konten notifikasi
+                            response.notifications.forEach(function(notif, index) {
+                                var containerClass = (index % 2 === 0) ? 'container-notif even' : 'container-notif odd';
+                                var notifHTML = `
+                                    <div class="${containerClass}">
+                                        <section class="header-title">
+                                            <section class="text-title">${notif.title_notif}</section>
+                                            <section class="date-title">${notif.created_at}</section>
+                                        </section>
+                                        <p class="isi-notif">${notif.deskripsi_notif}</p>
+                                        <form action="<?= base_url('notifikasi/mark_read') ?>" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="mark_readed" value="1">
+                                            <input type="hidden" name="notif_id" value="${notif.notif_id}">
+                                            <button type="submit" class="mark-readed">Mark as Read</button>
+                                        </form>
+                                    </div>
+                                `;
+                                notificationContent.append(notifHTML);
+                            });
+                        } else {
+                            var emptyHTML = `
+                                <div class="container-notif">
+                                    <p class="notif-kosong">Tidak ada notifikasi terbaru.</p>
+                                </div>
+                            `;
+                            notificationContent.append(emptyHTML);
+                        }
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    },
+                    error: function() {
+                        var notificationContent = $('#notification-content');
+                        notificationContent.empty(); // Kosongkan konten notifikasi
+
+                        var errorHTML = `
+                            <div class="container-notif">
+                                <p class="isi-notif">Terjadi kesalahan saat mengambil notifikasi.</p>
+                            </div>
+                        `;
+                        notificationContent.append(errorHTML);
+
+                        $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+                    }
+                });
+            });
+
+            // Menyembunyikan notifikasi saat klik di luar elemen
+            $(document).click(function(event) {
+                var target = $(event.target);
+                if (!target.closest('#notification-popup').length && !target.closest('#notification-toggle').length) {
+                    $('#notification-popup').fadeOut('slow'); // Menggunakan animasi fadeOut
+                }
+            });
+
+            // Menyembunyikan notifikasi saat mouse keluar dari elemen
+            $('#notification-popup').mouseleave(function() {
+                $(this).fadeOut('slow'); // Menggunakan animasi fadeOut
+            });
+        });
+  </script>
+
   <!-- custom js -->
   <script src="<?= base_url('js/custom.js') ?>"></script>
   <script src="<?= base_url('js/form/form_lomba.js') ?>"></script>

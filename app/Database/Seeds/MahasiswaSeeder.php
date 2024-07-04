@@ -21,6 +21,17 @@ class MahasiswaSeeder extends Seeder
 
         $data = [
             [
+                // SET ADMIN MAHASISWA TO VIEW MAHASISWA POV
+                'NIM' => '100000000001',
+                'prodi_id' => $prodi[0]['prodi_id'],
+                'nama_lengkap' => 'Admin Mahasiswa',
+                'email' => 'admin@example.com',
+                'password' => password_hash('adminpassword', PASSWORD_DEFAULT),
+                'photo' => '1718643474_e08440f5a29c07f53791.jpg',
+                'ipk' => 3.5,
+                'created_at' => date('Y-m-d H:i:s'),
+            ],
+            [
                 'NIM' => '01102170312',
                 'prodi_id' => $prodi[0]['prodi_id'],
                 'nama_lengkap' => 'Fulan',

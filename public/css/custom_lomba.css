@@ -1,0 +1,56 @@
+.card-custom{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding-right: 100px;
+}
+
+.card-child{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.poster-lomba{
+    padding: 10px;
+    height: 200px;
+    width: 133.45px;
+    object-fit: cover;
+}
+
+.card-bottom-area{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 92px;
+}
+
+.search-text{
+    width: 100%;
+    font-size: 24px;
+    margin-bottom: 20px;
+    border: 1px solid #C1DCDC;
+}
+
+.form-search{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.button-search{
+    background-color: transparent;
+    border: none;
+}
+
+.search-field{
+    width: 100%;
+    text-align: center;
+    border: 0;
+}
+
+.none-found{
+    width: 100%;
+    text-align: center;
+}

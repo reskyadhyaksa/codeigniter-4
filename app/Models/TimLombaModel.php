@@ -23,6 +23,7 @@ class TimLombaModel extends Model
         'lomba_id',
         'nama_tim',
         'NIM_ketua',
+        'anggota_tim',
         'status',
     ];
 

@@ -27,8 +27,9 @@ class LombaModel extends Model
     protected $allowedFields = [
         'kategori_lomba',
         'nama_lomba',
+        'prodi_lomba',
         'poster_lomba',
-        'link_lomba',
+        'penyelenggara_lomba',
         'keterangan_lomba',
         'tenggat_pendaftaran',
         'tanggal_mulai',

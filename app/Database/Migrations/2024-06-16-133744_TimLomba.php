@@ -29,6 +29,10 @@ class TimLomba extends Migration
                 'type' => 'INT',
                 'constraint' => '1',
             ],
+            'anggota_tim' => [
+                'type' => 'TEXT',
+                'null' => false,
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
@@ -37,7 +41,6 @@ class TimLomba extends Migration
         ]);
 
         $this->forge->addKey('tim_lomba_id', TRUE);
-        $this->forge->addForeignKey('lomba_id', 'lomba', 'lomba_id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('tim_lomba');
     }
     public function down()

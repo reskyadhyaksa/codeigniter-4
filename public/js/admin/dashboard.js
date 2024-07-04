@@ -23,3 +23,14 @@ $(document).ready(function () {
         $('#main-content').html($('#create-news-content').html());
     });
 });
+
+function get_first_n_sentences($text, $num_sentences = 5) {
+    // Split the text into sentences
+    $sentences = preg_split('/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s/', $text);
+    
+    // Get the first n sentences
+    $first_n_sentences = array_slice($sentences, 0, $num_sentences);
+    
+    // Join the first n sentences back into a string
+    return implode(' ', $first_n_sentences);
+}

@@ -27,85 +27,31 @@
   <link rel="stylesheet" href="<?= base_url('css/price_rangs.css') ?>">
   <!-- style CSS -->
   <link rel="stylesheet" href="<?= base_url('css/style.css') ?>">
+  <link rel="stylesheet" href="<?= base_url('css/navigation.css') ?>" />
+  <link rel="stylesheet" href="<?= base_url('css/custom_lomba.css') ?>" />
+
 </head>
 
 <body>
   <!--::header part start::-->
-  <header class="main_menu home_menu">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-lg-12">
-          <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="<?= base_url('home') ?>">
-              <img src="<?= base_url('img/logo.png') ?>" alt="logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="menu_icon"><i class="fas fa-bars"></i></span>
-            </button>
-
-            <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('home') ?>">Halaman Utama</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Kategori
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="<?= base_url('home/kategori_akademik') ?>">Akademik</a>
-                    <a class="dropdown-item" href="<?= base_url('home/kategori_nonakademik') ?>">Non-Akademik</a>
-                  </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="<?= base_url('home/berita') ?>">Berita</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown_1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Form Pengajuan
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                    <a class="dropdown-item" href="<?= base_url('form/form_lomba') ?>">Info Lomba</a>
-                    <a class="dropdown-item" href="<?= base_url('form/form_tim') ?>">Tim Lomba</a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="hearer_icon d-flex">
-              <a id="search_1" href="javascript:void(0)"><i class="ti-search"></i></a>
-              <a href=""><i class="ti-bell"></i></a>
-              <div class="dropdown cart">
-                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <a href="<?= base_url('mahasiswa/profile') ?>" class="icon-link">
-                    <i class="ti-user"></i>
-                  </a>
-                </a>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </div>
-    </div>
-
-    <div class="search_input" id="search_input_box">
-      <div class="container">
-        <form class="d-flex justify-content-between search-inner">
-          <input type="text" class="form-control" id="search_input" placeholder="Search Here" />
-          <button type="submit" class="btn"></button>
-          <span class="ti-close" id="close_search" title="Close Search"></span>
-        </form>
-      </div>
-    </div>
-  </header>
+  <?= $this->include('header') ?>
   <!-- Header part end-->
 
-  <h1 class="text-center font-weight-bolder" style="padding-top: 10rem; padding-bottom: 6rem">AKADEMIK</h1>
+  <h1 class="text-center font-weight-bolder" style="padding-top: 8rem; padding-bottom: 2rem">AKADEMIK</h1>
 
   <!-- filter part start -->
   <section>
     <div class="container">
       <div class="accordion" id="accordionExample">
         <div class="card">
+          <div class="search-text">
+              <form action="<?= base_url('home/kategori_akademik') ?>" method="get" class="form-search">
+                  <input type="text" name="keyword" class="search-field" placeholder="Cari Lomba di sini" />
+                  <button type="submit" class="button-search">
+                      <i class="ti-search"></i>
+                  </button>
+              </form>
+          </div>
           <div class="card-header d-flex justify-content-between" id="headingOne">
             <h3 class="d-flex align-items-center mb-0">Filter Kategori Prodi</h2>
               <div class="card-tools">
@@ -114,119 +60,33 @@
               </div>
           </div>
 
-          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Kedokteran
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Farmasi
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Biologi
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Kimia
-                    </label>
+              <form action="<?php echo base_url('home/filter_akademik'); ?>" method="get">
+                <div class="row">
+                  <?php 
+                  $cols = 4; // Jumlah kolom yang diinginkan
+                  $chunks = array_chunk($prodi, ceil(count($prodi) / $cols)); // Membagi array menjadi beberapa bagian
+                  foreach ($chunks as $chunk): ?>
+                      <div class="col">
+                          <?php foreach ($chunk as $p): ?>
+                              <div class="form-check pb-1">
+                                  <input class="form-check-input" type="checkbox" name="prodi[]" value="<?php echo $p['prodi_id']; ?>" id="prodiCheck<?php echo $p['prodi_id']; ?>" 
+                                  <?php echo in_array($p['prodi_id'], $selectedProdi) ? 'checked' : ''; ?>>
+                                  <label class="form-check-label" for="prodiCheck<?php echo $p['prodi_id']; ?>">
+                                      <?php echo $p['nama_prodi']; ?>
+                                  </label>
+                              </div>
+                          <?php endforeach; ?>
+                      </div>
+                  <?php endforeach; ?>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="tombol-filter w-25">
+                    <button type="submit" class="btn btn-primary mt-4 w-100">FILTER</button>
                   </div>
                 </div>
-                <div class="col">
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Fisika
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Matematika
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Informatika
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Teknik Elektro
-                    </label>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Teknik Sipil
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Teknik Mesin
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Strategi Perang Semesta
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Peperangan Asimetris
-                    </label>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Diplomasi Pertahanan
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Manajemen Pertahanan
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Ekonomi Pertahanan
-                    </label>
-                  </div>
-                  <div class="form-check pb-1">
-                    <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                    <label class="form-check-label" for="defaultCheck1">
-                      Ketahanan Energi
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="row justify-content-center">
-                <div class="tombol-filter w-25">
-                  <a href="#" class="btn btn-primary mt-4 w-100">FILTER</a>
-                </div>
-              </div>
+              </form>
             </div>
           </div>
 
@@ -239,116 +99,54 @@
 
   <!-- lomba_list part start -->
   <div class="lomba_list container">
-    <h2 class="text-center mb-5 pt-5" style="margin: 4rem 0">List Lomba Akademik</h2>
+    <h2 class="text-center mb-5 pt-5" style="margin: 1rem 0">List Lomba Akademik</h2>
+    <?php if (!empty($lomba)): ?>
+      <?php foreach ($lomba as $item): ?>
+          <div class="card" style="margin: 3rem 0">
+              <div class="card-custom">
+                  <img src="<?= base_url('uploads/poster/') . $item['poster_lomba'] ?>" alt="Poster Lomba" class="poster-lomba">
+                  <div class="card-child">
+                    <h5 class="card-title"><?= $item['nama_lomba']; ?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?= date('d M Y', strtotime($item['tanggal_mulai'])); ?></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Prodi: <?= implode(', ', array_map(function($id) use ($prodiMap) {
+                        return $prodiMap[$id] ?? $id;
+                    }, json_decode($item['prodi_lomba'], true))); ?></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Penyelenggara: <?= $item['penyelenggara_lomba']; ?></h6>
+                    <div class="card-bottom-area" >
+                    <h6 class="card-subtitle mb-2 pt-2" id="keteranganLomba">
+                      <?php
+                          $keterangan = esc($item['keterangan_lomba']);
+                          $sentences = explode('.', $keterangan);
+                          $short_keterangan = implode('.', array_slice($sentences, 0, 4)) . (count($sentences) > 4 ? '...' : '');
+                      ?>
+                      <div id="keteranganLomba">
+                          <span class="short-text"><?= $short_keterangan; ?></span>
+                      </div>
+                    </h6>
+                    <form action="<?php echo base_url('home/detail_lomba');?>" method="get">
+                      <input type="hidden" name="lomba_id" value="<?php echo $item['lomba_id']; ?>"/>
+                      <button type="submit" class="btn btn-primary mr-2">Lihat Selengkapnya</button>
+                    </form>
+                    </div>
+                  </div>
+              </div>
+          </div>
+    <?php endforeach; ?>
+  
+    <?php else: ?>
+      <div class="lomba_list container">
+        <div class="card" style="margin: 3rem 0">
+          <div class="none-found" style="padding: 3rem">
+            <h5 class="tidak-ada">Tidak Ada Kompetisi ditemukan</h5>
+          </div>
+        </div>
+      </div>
+    <?php endif; ?>
 
-    <div class="card" style="margin: 3rem 0">
-      <div class="card-body">
-        <h5 class="card-title">Judul Lomba 1</h5>
-        <h6 class="card-subtitle mb-2 text-muted">23 Maret 2024</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Kategori: Informatika, Kedokteran</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Penyelenggara: Universitas Gajah Mada</h6>
-        <h6 class="card-subtitle mb-2 pt-3 pb-3">DETAIL : Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem hic, libero itaque nam maiores tenetur cum voluptatibus repudiandae neque odit sint omnis delectus magnam. Cupiditate, expedita? Tempore fugiat, magnam itaque dolores voluptatum porro ullam sapiente quasi magni eligendi perspiciatis error voluptas nostrum, laboriosam id consequatur architecto vel dolore maiores perferendis, ab excepturi quibusdam. Excepturi hic totam aliquid magnam! Porro laborum aperiam voluptatum debitis sapiente non, at fuga incidunt corporis saepe, rem dicta expedita rerum iusto unde odio? Libero illo asperiores, quae facilis rerum suscipit architecto beatae quasi maxime, quia, nesciunt voluptatum accusantium possimus exercitationem quos? Ipsum ad explicabo magnam debitis....</h6>
-        <a href="https://www.google.com" target="_blank">
-          <button class="btn btn-primary mr-2">Detail Lainnya</button>
-        </a>
-      </div>
-    </div>
-    <div class="card" style="margin: 3rem 0">
-      <div class="card-body">
-        <h5 class="card-title">Judul Lomba 1</h5>
-        <h6 class="card-subtitle mb-2 text-muted">23 Maret 2024</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Kategori: Informatika, Kedokteran</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Penyelenggara: Universitas Gajah Mada</h6>
-        <h6 class="card-subtitle mb-2 pt-3 pb-3">DETAIL : Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem hic, libero itaque nam maiores tenetur cum voluptatibus repudiandae neque odit sint omnis delectus magnam. Cupiditate, expedita? Tempore fugiat, magnam itaque dolores voluptatum porro ullam sapiente quasi magni eligendi perspiciatis error voluptas nostrum, laboriosam id consequatur architecto vel dolore maiores perferendis, ab excepturi quibusdam. Excepturi hic totam aliquid magnam! Porro laborum aperiam voluptatum debitis sapiente non, at fuga incidunt corporis saepe, rem dicta expedita rerum iusto unde odio? Libero illo asperiores, quae facilis rerum suscipit architecto beatae quasi maxime, quia, nesciunt voluptatum accusantium possimus exercitationem quos? Ipsum ad explicabo magnam debitis....</h6>
-        <a href="https://www.google.com" target="_blank">
-          <button class="btn btn-primary mr-2 ">Detail Lainnya</button>
-        </a>
-      </div>
-    </div>
-    <div class="card" style="margin: 3rem 0">
-      <div class="card-body">
-        <h5 class="card-title">Judul Lomba 1</h5>
-        <h6 class="card-subtitle mb-2 text-muted">23 Maret 2024</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Kategori: Informatika, Kedokteran</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Penyelenggara: Universitas Gajah Mada</h6>
-        <h6 class="card-subtitle mb-2 pt-3 pb-3">DETAIL : Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem hic, libero itaque nam maiores tenetur cum voluptatibus repudiandae neque odit sint omnis delectus magnam. Cupiditate, expedita? Tempore fugiat, magnam itaque dolores voluptatum porro ullam sapiente quasi magni eligendi perspiciatis error voluptas nostrum, laboriosam id consequatur architecto vel dolore maiores perferendis, ab excepturi quibusdam. Excepturi hic totam aliquid magnam! Porro laborum aperiam voluptatum debitis sapiente non, at fuga incidunt corporis saepe, rem dicta expedita rerum iusto unde odio? Libero illo asperiores, quae facilis rerum suscipit architecto beatae quasi maxime, quia, nesciunt voluptatum accusantium possimus exercitationem quos? Ipsum ad explicabo magnam debitis....</h6>
-        <a href="https://www.google.com" target="_blank">
-          <button class="btn btn-primary mr-2 ">Detail Lainnya</button>
-        </a>
-      </div>
-    </div>
-    <div class="card" style="margin: 3rem 0">
-      <div class="card-body">
-        <h5 class="card-title">Judul Lomba 1</h5>
-        <h6 class="card-subtitle mb-2 text-muted">23 Maret 2024</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Kategori: Informatika, Kedokteran</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Penyelenggara: Universitas Gajah Mada</h6>
-        <h6 class="card-subtitle mb-2 pt-3 pb-3">DETAIL : Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem hic, libero itaque nam maiores tenetur cum voluptatibus repudiandae neque odit sint omnis delectus magnam. Cupiditate, expedita? Tempore fugiat, magnam itaque dolores voluptatum porro ullam sapiente quasi magni eligendi perspiciatis error voluptas nostrum, laboriosam id consequatur architecto vel dolore maiores perferendis, ab excepturi quibusdam. Excepturi hic totam aliquid magnam! Porro laborum aperiam voluptatum debitis sapiente non, at fuga incidunt corporis saepe, rem dicta expedita rerum iusto unde odio? Libero illo asperiores, quae facilis rerum suscipit architecto beatae quasi maxime, quia, nesciunt voluptatum accusantium possimus exercitationem quos? Ipsum ad explicabo magnam debitis....</h6>
-        <a href="https://www.google.com" target="_blank">
-          <button class="btn btn-primary mr-2 ">Detail Lainnya</button>
-        </a>
-      </div>
-    </div>
-    <div class="card" style="margin: 3rem 0">
-      <div class="card-body">
-        <h5 class="card-title">Judul Lomba 1</h5>
-        <h6 class="card-subtitle mb-2 text-muted">23 Maret 2024</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Kategori: Informatika, Kedokteran</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Penyelenggara: Universitas Gajah Mada</h6>
-        <h6 class="card-subtitle mb-2 pt-3 pb-3">DETAIL : Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem hic, libero itaque nam maiores tenetur cum voluptatibus repudiandae neque odit sint omnis delectus magnam. Cupiditate, expedita? Tempore fugiat, magnam itaque dolores voluptatum porro ullam sapiente quasi magni eligendi perspiciatis error voluptas nostrum, laboriosam id consequatur architecto vel dolore maiores perferendis, ab excepturi quibusdam. Excepturi hic totam aliquid magnam! Porro laborum aperiam voluptatum debitis sapiente non, at fuga incidunt corporis saepe, rem dicta expedita rerum iusto unde odio? Libero illo asperiores, quae facilis rerum suscipit architecto beatae quasi maxime, quia, nesciunt voluptatum accusantium possimus exercitationem quos? Ipsum ad explicabo magnam debitis....</h6>
-        <a href="https://www.google.com" target="_blank">
-          <button class="btn btn-primary mr-2 ">Detail Lainnya</button>
-        </a>
-      </div>
-    </div>
-
-    <!-- Tombol navigasi -->
-    <div class="pagination">
-      <button class="btn1" onclick="backBtn()"><i class="ti-arrow-left" aria-hidden="true"></i></button>
-      <ul style="margin: 20px 30px;">
-        <li class="link active" value="1" onclick="activeLink()">1</li>
-        <li class="link" value="2" onclick="activeLink()">2</li>
-        <li class="link" value="3" onclick="activeLink()">3</li>
-        <li class="link" value="4" onclick="activeLink()">4</li>
-        <li class="link" value="5" onclick="activeLink()">5</li>
-      </ul>
-      <button class="btn2" onclick="nextBtn()"><i class="ti-arrow-right" aria-hidden="true"></i></button>
-    </div>
+    <nav aria-label="Page navigation">
+        <?= $pager->links() ?>                            
+    </nav>
   </div>
-
-  <script>
-    let link = document.getElementsByClassName("link");
-
-    let currentValue = 1;
-
-    function activeLink() {
-      for (l of link) {
-        l.classList.remove("active");
-      }
-      event.target.classList.add("active");
-      currentValue = event.target.value;
-    }
-
-    function backBtn() {
-      if (currentValue > 1) {
-        for (l of link) {
-          l.classList.remove("active");
-        }
-      }
-      currentValue--;
-      link[currentValue - 1].classList.add("active");
-    }
-
-    function nextBtn() {
-      if (currentValue < 5) {
-        for (l of link) {
-          l.classList.remove("active");
-        }
-      }
-      currentValue++;
-      link[currentValue - 1].classList.add("active");
-    }
-  </script>
   <!-- lomba_list part end -->
 
 
@@ -461,6 +259,96 @@
   <script src="<?= base_url('js/mail-script.js') ?>"></script>
   <!-- custom js -->
   <script src="<?= base_url('js/custom.js') ?>"></script>
+
+  <!-- notif js -->
+  <script>
+    $(document).ready(function() {
+        $('#notification-toggle').click(function(event) {
+          event.preventDefault(); // Mencegah tindakan default dari tag <a>
+
+          $.ajax({
+            url: '<?= base_url('notifikasi/get_notif') ?>',
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                var notificationContent = $('#notification-content');
+                notificationContent.empty(); // Kosongkan konten notifikasi
+
+                if (response.notifications && response.notifications.length > 0) {
+                    // Loop melalui notifikasi dan tambahkan ke konten notifikasi
+                    response.notifications.forEach(function(notif, index) {
+                        var containerClass = (index % 2 === 0) ? 'container-notif even' : 'container-notif odd';
+                        var notifHTML = `
+                            <div class="${containerClass}">
+                                <section class="header-title">
+                                    <section class="text-title">${notif.title_notif}</section>
+                                    <section class="date-title">${notif.created_at}</section>
+                                </section>
+                                <p class="isi-notif">${notif.deskripsi_notif}</p>
+                                <form action="<?= base_url('notifikasi/mark_read_akademik') ?>" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="mark_readed" value="1">
+                                    <input type="hidden" name="notif_id" value="${notif.notif_id}">
+                                    <button type="submit" class="mark-readed">Mark as Read</button>
+                                </form>
+                            </div>
+                        `;
+                        notificationContent.append(notifHTML);
+                    });
+                } else {
+                    var emptyHTML = `
+                        <div class="container-notif">
+                            <p class="notif-kosong">Tidak ada notifikasi terbaru.</p>
+                        </div>
+                    `;
+                    notificationContent.append(emptyHTML);
+                }
+
+                $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+            },
+            error: function() {
+                var notificationContent = $('#notification-content');
+                notificationContent.empty(); // Kosongkan konten notifikasi
+
+                var errorHTML = `
+                    <div class="container-notif">
+                        <p class="isi-notif">Terjadi kesalahan saat mengambil notifikasi.</p>
+                    </div>
+                `;
+                notificationContent.append(errorHTML);
+
+                $('#notification-popup').fadeToggle(); // Mengubah visibilitas elemen dengan animasi fade
+            }
+          });
+        });
+
+        // Menyembunyikan notifikasi saat klik di luar elemen
+        $(document).click(function(event) {
+            var target = $(event.target);
+            if (!target.closest('#notification-popup').length && !target.closest('#notification-toggle').length) {
+                $('#notification-popup').fadeOut('slow'); // Menggunakan animasi fadeOut
+            }
+        });
+
+        // Menyembunyikan notifikasi saat mouse keluar dari elemen
+        $('#notification-popup').mouseleave(function() {
+            $(this).fadeOut('slow'); // Menggunakan animasi fadeOut
+        });
+    });
+  </script>
+  
+  <!-- Deskripsi Kolom -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var element = document.getElementById('keteranganLomba');
+      var lineHeight = parseInt(window.getComputedStyle(element).lineHeight, 10);
+      var maxHeight = lineHeight * 3; // Dua baris kalimat
+
+      while (element.scrollHeight > maxHeight) {
+          var text = element.innerText;
+          element.innerText = text.replace(/\W*\s(\S)*$/, '...');
+      }
+    });
+  </script>
 </body>
 
 </html>

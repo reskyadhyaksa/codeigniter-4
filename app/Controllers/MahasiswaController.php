@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
@@ -9,6 +8,8 @@ use App\Models\LombaModel;
 use App\Models\MahasiswaModel;
 use App\Models\TimLombaModel;
 use App\Models\AnggotaTimLombaModel;
+use App\Models\NotifModel;
+use Ramsey\Uuid\Uuid;
 
 class MahasiswaController extends BaseController
 {
@@ -16,15 +17,15 @@ class MahasiswaController extends BaseController
     protected $lomba;
     protected $mahasiswa;
     protected $timLomba;
-    protected $anggotaTimLomba;
+    protected $notifikasi;
 
     public function __construct()
     {
         $this->prodi = new ProdiModel();
         $this->lomba = new LombaModel();
+        $this->notifikasi = new NotifModel();
         $this->mahasiswa = new MahasiswaModel();
         $this->timLomba = new TimLombaModel();
-        $this->anggotaTimLomba = new AnggotaTimLombaModel();
     }
 
     public function profile()
@@ -33,6 +34,11 @@ class MahasiswaController extends BaseController
         if (!session()->get('isLoggedIn')) {
             return redirect()->to(base_url(''));
         }
+    
+        $user_id = session()->get('user_id');
+        $notifikasi = $this->notifikasi
+                        ->where('NIM_terkait', $user_id)
+                        ->where('mark_readed', 0)->findAll();
 
         // Retrieve user data from session
         $dataMahasiswa = [
@@ -46,6 +52,7 @@ class MahasiswaController extends BaseController
         $data = [
             'mahasiswa' => $dataMahasiswa,
             'prodi' => $prodi,
+            'notifikasi' => $notifikasi,
         ];
 
         return view('mahasiswa/profile', $data);
@@ -57,6 +64,11 @@ class MahasiswaController extends BaseController
         if (!session()->get('isLoggedIn')) {
             return redirect()->to(base_url(''));
         }
+    
+        $user_id = session()->get('user_id');
+        $notifikasi = $this->notifikasi
+                        ->where('NIM_terkait', $user_id)
+                        ->where('mark_readed', 0)->findAll();
 
         // Retrieve user data from session
         $dataMahasiswa = [
@@ -70,36 +82,77 @@ class MahasiswaController extends BaseController
         $data = [
             'mahasiswa' => $dataMahasiswa,
             'prodi' => $prodi,
+            'notifikasi' => $notifikasi,
         ];
         return view('mahasiswa/edit_profile_mahasiswa', $data);
     }
 
     public function profileInfoLomba()
     {
-        $lomba = $this->lomba->findAll();
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to(base_url(''));
+        }
+
+        $user_id = session()->get('user_id');
+        $notifikasi = $this->notifikasi
+                        ->where('NIM_terkait', $user_id)
+                        ->where('mark_readed', 0)->findAll();
+
+        $lomba = $this->lomba->where('pengguna_pengaju', $user_id)->findAll();
         $data = [
             'lomba' => $lomba,
+            'notifikasi' => $notifikasi,
         ];
         return view('mahasiswa/profile_info_lomba', $data);
     }
 
     public function profileTimLomba()
     {
-        $timLomba = $this->timLomba->findAll();
-        $data = array_map(function ($tim) {
-            $members = $this->anggotaTimLomba->select('NIM')->where('tim_lomba_id', $tim['tim_lomba_id'])->findAll();
-            return [
-                'lomba' => $this->lomba->find($tim['lomba_id']),
-                'ketua' => $this->mahasiswa->find($tim['NIM_ketua']),
-                'tim_lomba' => $tim,
-                'anggota_tim_lomba' => array_map(function ($member) {
-                    return $this->mahasiswa->find($member['NIM']);
-                }, $members),
-            ];
-        }, $timLomba);
+        if (!session()->get('isLoggedIn')) {
+            return redirect()->to(base_url(''));
+        }
+    
+        $user_id = session()->get('user_id');
+        $notifikasi = $this->notifikasi
+                        ->where('NIM_terkait', $user_id)
+                        ->where('mark_readed', 0)->findAll();
+
+        $ketuaLomba = $this->timLomba->where('NIM_ketua', $user_id)->findAll();
+        $anggotaLomba = $this->timLomba->like('anggota_tim', $user_id)->findAll();
+
+        $timLomba = array_merge($ketuaLomba, $anggotaLomba);
+
+        $timLomba = array_unique($timLomba, SORT_REGULAR);
+
+        foreach ($timLomba as &$team) {
+            $lomba = $this->lomba->find($team['lomba_id']);
+            $team['nama_lomba'] = $lomba ? $lomba['nama_lomba'] : 'Unknown';
+
+            // Fetch the name of the ketua
+            $ketua = $this->mahasiswa->find($team['NIM_ketua']);
+            $team['nama_ketua'] = $ketua ? $ketua['nama_lengkap'] : 'Unknown';
+
+            // Fetch the names of the anggota
+            $anggota_tim = json_decode($team['anggota_tim'], true);
+            $anggota_nama = [];
+            if (is_array($anggota_tim)) {
+                foreach ($anggota_tim as $nim) {
+                    $anggota = $this->mahasiswa->find($nim);
+                    if ($anggota) {
+                        $anggota_nama[] = $anggota['nama_lengkap'];
+                    }
+                }
+            }
+            $team['anggota_nama'] = $anggota_nama;
+        }
+        
+        $data = [
+            'timLomba' => $timLomba,
+            'notifikasi' => $notifikasi,
+        ];
 
         // return response()->setJSON($data);  
-        return view('mahasiswa/profile_tim_lomba', ['data' => $data]);
+        return view('mahasiswa/profile_tim_lomba', $data);
     }
 
 
@@ -107,6 +160,7 @@ class MahasiswaController extends BaseController
     /* back end */
     public function updateProfile()
     {
+
         $nama_lengkap = $this->request->getPost('nama_lengkap');
         $email = $this->request->getPost('email');
 
@@ -161,6 +215,21 @@ class MahasiswaController extends BaseController
             'created_at' => $this->request->getPost('created_at'),
         ];
 
+        // Add Notifikasi Ke dalam Perubahan Profil
+        $nim_pengguna = $this->request->getPost('NIM');
+        $db = \Config\Database::connect();
+        $currentDate = date('Y-m-d H:i:s');
+        $notifModel = new \App\Models\NotifModel();
+
+        $notifData = [
+            'NIM_terkait' => session()->get('user_id'),
+            'title_notif' => 'Data Pengguna',
+            'deskripsi_notif' => 'Anda telah melakukan perubahan data',
+            'mark_readed' => 0,
+            'created_at' => $currentDate,
+        ];
+
+        $notifModel->insert($notifData);
         $this->mahasiswa->update($mahasiswa['NIM'], $mahasiswa);
         return redirect()->to(base_url('/mahasiswa/profile'));
     }
@@ -201,6 +270,21 @@ class MahasiswaController extends BaseController
             'password' => password_hash($new_password, PASSWORD_DEFAULT),
         ];
 
+        // Add Notifikasi Ke dalam Perubahan Profil
+        $nim_pengguna = $this->request->getPost('NIM');
+        $db = \Config\Database::connect();
+        $currentDate = date('Y-m-d H:i:s');
+        $notifModel = new \App\Models\NotifModel();
+
+        $notifData = [
+            'NIM_terkait' => session()->get('user_id'),
+            'title_notif' => 'Data Pengguna',
+            'deskripsi_notif' => 'Anda telah melakukan perubahan data',
+            'mark_readed' => 0,
+            'created_at' => $currentDate,
+        ];
+
+        $notifModel->insert($notifData);
         $mahasiswa = $this->mahasiswa->update($mahasiswa['NIM'], $data);
 
         return redirect()->to(base_url('/mahasiswa/edit_profile'))->with('success', 'Password berhasil diubah!');

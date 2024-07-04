@@ -16,18 +16,32 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
+    <div class="alert-notification">
+        <?php if (session()->getFlashdata('success')) : ?>
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Menampilkan pesan error -->
+        <?php if (session()->getFlashdata('error')) : ?>
+            <div class="alert alert-error alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">&times;</button>
+                <?= session()->getFlashdata('error') ?>
+            </div>
+        <?php endif; ?>
+    </div>
     <div class="left-side-bar">
         <div class="brand-logo">
             <a href="/admin/dashboard#">
-                <img src="<?= base_url('img/deskapp-logo.svg') ?>" alt="" class="dark-logo" />
-                <img src="<?= base_url('img/deskapp-logo-white.svg') ?>" alt="" class="light-logo" />
+                <img src="<?= base_url('img/union.png') ?>" alt="" class="dark-logo" />
+                <img src="<?= base_url('img/union.png') ?>" alt="" class="light-logo" />
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>
@@ -39,6 +53,11 @@
                     <li class="dropdown">
                         <a href="#" id="user-management" class="dropdown-toggle no-arrow">
                             <span class="mtext">Manajemen Pengguna</span>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" id="list-prodi" class="dropdown-toggle no-arrow">
+                            <span class="mtext">List Seluruh Prodi</span>
                         </a>
                     </li>
                     <li>
@@ -78,7 +97,7 @@
         </div>
     </div>
 
-    <!-- Konten tersembunyi untuk manajemen pengguna -->
+    <!-- Konten tersembunyi untuk list prodi -->
     <div id="user-management-content" style="display: none;">
         <div class="action-buttons">
             <a href="<?= base_url('admin/register_user_form'); ?>" class="btn btn-primary">Add User</a>
@@ -102,11 +121,11 @@
                             <td>
                                 <form action="<?= base_url('admin/edit_user_form'); ?>" method="get" style="display: inline;">
                                     <input type="hidden" name="NIM" value="<?= $row['NIM']; ?>">
-                                    <button class="edit-user"">Edit</button>
+                                    <button class="edit-user">Edit</button>
                                 </form>
                                 <form action="<?= base_url('admin/delete_mahasiswa'); ?>" method="post" style="display: inline;">
                                     <input type="hidden" name="NIM" value="<?= $row['NIM']; ?>">
-                                    <button class="delete-button"">Delete</button>
+                                    <button class="delete-button">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -116,9 +135,30 @@
             </table>
         </div>
     </div>
+    
+    <div id="list-prodi-content" style="display: none;">
+        <div class="table-responsive">
+            <table id="userDataTable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Prodi ID</th>
+                        <th>Nama Prodi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($prodi as $row) : ?>
+                        <tr>
+                            <td><?= $row['prodi_id']; ?></td>
+                            <td><?= $row['nama_prodi']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <!-- Add more user rows if needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     
-
     <!-- Konten tersembunyi untuk persetujuan info lomba -->
     <div id="approval-info-lomba-content" style="display: none;">
         <div class="action-buttons">
@@ -130,38 +170,61 @@
                     <tr>
                         <th>Nama Lomba</th>
                         <th>NIM Pengaju</th>
+                        <th>Prodi Lomba</th>
                         <th>Kategori</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
-                        <th>Keterangan</th>
+                        <th>Penyelenggara</th>
                         <th>Poster</th>
-                        <th>Link</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($approvalCompetitions as $competition) : ?>
+                    <?php if (!empty($approvalCompetitions)) : ?>
+                        <?php foreach ($approvalCompetitions as $competition) : ?>
+                            <tr>
+                                <td><?= $competition['nama_lomba']; ?></td>
+                                <td><?= $competition['pengguna_pengaju']; ?></td>
+                                <td style="width: 150px; max-height: 200px;"><?= esc($competition['nama_prodi']); ?></td>
+                                <td><?= $competition['kategori_lomba']; ?></td>
+                                <td><?= $competition['tanggal_mulai']; ?></td>
+                                <td><?= $competition['tanggal_selesai']; ?></td>
+                                <td style="width: 150px; max-height: 200px;"><?= esc($competition['penyelenggara_lomba']); ?></td>
+                                <td style="width: 300px; max-height: 200px;">
+                                    <div id="keteranganLomba" class="more">
+                                        <?php
+                                            $keterangan = esc($competition['keterangan_lomba']);
+                                            $sentences = explode('.', $keterangan);
+                                            $short_keterangan = implode('.', array_slice($sentences, 0, 4)) . (count($sentences) > 4 ? '...' : '');
+                                        ?>
+                                        <div id="keteranganLomba">
+                                            <span class="short-text"><?= $short_keterangan; ?></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><img src="<?= base_url('uploads/poster/' . $competition['poster_lomba']) ?>" alt="Poster Lomba" width="100" /></td>
+                                <td>
+                                    <form action="<?= base_url('admin/approveLomba'); ?>" method="post" style="display: inline;">
+                                        <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                        <button class="accept-approval-tim-lomba">Approve</button>
+                                    </form>
+                                    <form action="<?= base_url('admin/rejectLomba'); ?>" method="post" style="display: inline;">
+                                        <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                        <button class="decline-approval-tim-lomba">Reject</button>
+                                    </form>
+                                    <form action="<?= base_url('admin/edit_lomba_form'); ?>" method="get" style="display: inline;">
+                                        <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                        <button class="edit-user">Edit</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
                         <tr>
-                            <td><?= $competition['nama_lomba']; ?></td>
-                            <td><?= $competition['pengguna_pengaju']; ?></td>
-                            <td><?= $competition['kategori_lomba']; ?></td>
-                            <td><?= $competition['tanggal_mulai']; ?></td>
-                            <td><?= $competition['tanggal_selesai']; ?></td>
-                            <td><?= $competition['keterangan_lomba']; ?></td>
-                            <td><img src="<?= base_url('uploads/poster/' . $competition['poster_lomba']) ?>" alt="Poster Lomba" width="100" /></td>
-                            <td><a href="<?= $competition['link_lomba'] ?>">Link</a></td>
-                            <td>
-                                <form action="<?= base_url('admin/approveLomba'); ?>" method="post" style="display: inline;">
-                                    <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
-                                    <button class="edit-button"">Accept</button>
-                                </form>
-                                <form action="<?= base_url('admin/rejectLomba'); ?>" method="post" style="display: inline;">
-                                    <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
-                                    <button class="delete-button"">Reject</button>
-                                </form>
-                            </td>
+                            <td colspan="10" style="text-align: center;">Tidak ada lomba yang menunggu aksi selanjutnya.</td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
@@ -174,12 +237,14 @@
                 <thead>
                     <tr>
                         <th>Nama Lomba</th>
+                        <th>NIM Pengaju</th>
+                        <th>Prodi Lomba</th>
                         <th>Kategori</th>
                         <th>Tanggal Mulai</th>
                         <th>Tanggal Selesai</th>
-                        <th>Keterangan</th>
+                        <th>Penyelenggara</th>
                         <th>Poster</th>
-                        <th>Link</th>
+                        <th>Keterangan</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -188,15 +253,34 @@
                         <?php foreach ($updateCompetitions as $competition) : ?>
                             <tr>
                                 <td><?= esc($competition['nama_lomba']); ?></td>
+                                <td><?= $competition['pengguna_pengaju']; ?></td>
+                                <td style="width: 150px; max-height: 200px;"><?= esc($competition['nama_prodi']); ?></td>
                                 <td><?= esc($competition['kategori_lomba']); ?></td>
                                 <td><?= esc($competition['tanggal_mulai']); ?></td>
                                 <td><?= esc($competition['tanggal_selesai']); ?></td>
-                                <td><?= esc($competition['keterangan_lomba']); ?></td>
+                                <td style="width: 150px; max-height: 200px;"><?= esc($competition['penyelenggara_lomba']); ?></td>
+                                <td style="width: 300px; max-height: 200px;">
+                                    <div id="keteranganLomba" class="more">
+                                        <?php
+                                            $keterangan = esc($competition['keterangan_lomba']);
+                                            $sentences = explode('.', $keterangan);
+                                            $short_keterangan = implode('.', array_slice($sentences, 0, 4)) . (count($sentences) > 4 ? '...' : '');
+                                        ?>
+                                        <div id="keteranganLomba">
+                                            <span class="short-text"><?= $short_keterangan; ?></span>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td><img src="<?= base_url('uploads/poster/' . esc($competition['poster_lomba'])); ?>" alt="Poster Lomba" width="100"></td>
-                                <td><a href="<?= esc($competition['link_lomba']); ?>">Link</a></td>
                                 <td>
-                                    <button class="edit-update-info-lomba">Edit</button>
-                                    <button class="delete-update-info-lomba">Delete</button>
+                                    <form action="<?= base_url('admin/edit_lomba_form'); ?>" method="get" style="display: inline;">
+                                        <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                        <button class="edit-user">Edit</button>
+                                    </form>
+                                    <form action="<?= base_url('admin/delete_lomba_form'); ?>" method="post" style="display: inline;">
+                                        <input type="hidden" name="lomba_id" value="<?= $competition['lomba_id']; ?>">
+                                        <button class="delete-button">Delete</button>
+                                    </form>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -221,9 +305,8 @@
                         <th>Tenggat Pendaftaran</th>
                         <th>Nama Tim</th>
                         <th>Ketua</th>
-                        <th>Anggota 1</th>
-                        <th>Anggota 2</th>
-                        <th>Anggota 3</th>
+                        <th>Anggota</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -234,12 +317,15 @@
                                 <td><?= $team['nama_lomba'] ?></td>
                                 <td><?= $team['tenggat_pendaftaran'] ?></td>
                                 <td><?= $team['nama_tim'] ?></td>
+                                <td><?= $team['NIM_ketua'] ?></td>
+                                <td><?= implode('<br/> ', $team['anggota_tim']); ?></td>
+                                <td><?= $team['status'] ?></td>
                                 <td>
-                                    <form action="<?= site_url('persetujuantim.php'); ?>" method="post" style="display: inline-block;">
+                                    <form action="<?= site_url('admin/approveTim'); ?>" method="post" style="display: inline-block;">
                                         <input type="hidden" name="tim_lomba_id" value="<?= esc($team['tim_lomba_id']); ?>">
                                         <button type="submit" name="setujui" class="accept-approval-tim-lomba">Setujui</button>
                                     </form>
-                                    <form action="<?= site_url('persetujuantim.php'); ?>" method="post" style="display: inline-block;">
+                                    <form action="<?= site_url('admin/rejectTim'); ?>" method="post" style="display: inline-block;">
                                         <input type="hidden" name="tim_lomba_id" value="<?= esc($team['tim_lomba_id']); ?>">
                                         <button type="submit" name="tidak_setujui" class="decline-approval-tim-lomba">Tidak Disetujui</button>
                                     </form>
@@ -248,7 +334,7 @@
                         <?php endforeach; ?>
                     <?php else : ?>
                         <tr>
-                            <td colspan="5">Tidak ada data tim lomba yang menunggu persetujuan.</td>
+                            <td colspan="7">Tidak ada data tim lomba yang menunggu persetujuan.</td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
@@ -259,35 +345,64 @@
     <!-- Konten tersembunyi untuk pembuatan berita -->
     <div id="create-news-content" style="display: none;">
         <div class="action-buttons">
-            <button id="add-create-news">Add News</button>
+            <a href="<?= base_url('admin/tambah_berita_form'); ?>" class="btn btn-primary">Buat Berita</a>
         </div>
         <div class="table-responsive">
             <table id="createNewsTable" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>Judul Berita</th>
+                        <th>Prodi Berita</th>
                         <th>Tanggal</th>
-                        <th>Actions</th>
+                        <th>Foto Berita</th>
+                        <th>Deskripsi</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Berita A</td>
-                        <td>2023-05-12</td>
-                        <td>
-                            <button class="edit-create-news">Edit</button>
-                            <button class="delete-create-news">Delete</button>
-                        </td>
-                    </tr>
+                    <?php if (count($berita) > 0) : ?>
+                        <?php foreach ($berita as $b) : ?>
+                            <tr>
+                            <td style="width: 100px"><?= $b['judul_berita'] ?></td>
+                                <td style="width: 100px"><?= implode(', ', json_decode($b['prodi_berita'], true)) ?></td>
+                                <td style="width: 100px"><?= date('d/m/Y', strtotime($b['created_at'])) ?></td>
+                                <td><img src="<?= base_url('uploads/berita/' . esc($b['foto_berita'])); ?>" alt="Poster Lomba" width="100"></td>
+                                <td style="width: 1000px; max-height: 200px;">
+                                    <div id="keteranganLomba" class="more">
+                                        <?php
+                                            $keterangan = esc($b['isi_berita']);
+                                            $sentences = explode('.', $keterangan);
+                                            $short_keterangan = implode('.', array_slice($sentences, 0, 10)) . (count($sentences) > 4 ? '...' : '');
+                                        ?>
+                                        <div id="keteranganLomba">
+                                            <span class="short-text"><?= $short_keterangan; ?></span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <form action="<?= site_url('admin/edit_berita'); ?>" method="get" style="display: inline-block;">
+                                        <input type="hidden" name="berita_id" value="<?= esc($b['berita_id']); ?>">
+                                        <button type="submit" name="setujui" class="accept-approval-tim-lomba">Edit</button>
+                                    </form>
+                                    <form action="<?= site_url('admin/delete_berita_form'); ?>" method="post" style="display: inline-block;">
+                                        <input type="hidden" name="berita_id" value="<?= esc($b['berita_id']); ?>">
+                                        <button type="submit" name="tidak_setujui" class="decline-approval-tim-lomba">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td colspan="5">Tidak ada data tim lomba yang menunggu persetujuan.</td>
+                        </tr>
+                    <?php endif; ?>
                     <!-- Add more rows if needed -->
                 </tbody>
             </table>
         </div>
     </div>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {   
             function confirmDelete() {
@@ -304,6 +419,10 @@
 
             $('#user-management').click(function() {
                 $('#main-content').html($('#user-management-content').html());
+            });
+            
+            $('#list-prodi').click(function() {
+                $('#main-content').html($('#list-prodi-content').html());
             });
 
             $('#approval-info-lomba').click(function() {
@@ -324,6 +443,40 @@
             });
         });
     </script>
+    
+    <script>
+        $(document).ready(function(){
+            $(".read-more").click(function(){
+                var $this = $(this);
+                var $shortText = $this.siblings(".short-text");
+                var $fullText = $this.siblings(".full-text");
+
+                if ($shortText.is(":visible")) {
+                    $shortText.hide();
+                    $fullText.show();
+                    $this.text("Read Less");
+                } else {
+                    $shortText.show();
+                    $fullText.hide();
+                    $this.text("Read More");
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function(){
+            $(".close").click(function(){
+                $(this).closest('.alert').hide();
+            });
+            setTimeout(function() {
+                $(".alert").fadeOut('slow');
+            }, 1000);
+        });
+        
+    </script>
+
 </body>
 
 </html>

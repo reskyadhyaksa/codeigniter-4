@@ -106,6 +106,8 @@ class AuthController extends BaseController
 
         $img = $this->request->getFile('photo');
 
+
+
         if ($img->isValid() && !$img->hasMoved()) {
             $file_ext = $img->getClientExtension();
             $validImageExtensions = ['jpg', 'jpeg', 'png'];
@@ -193,6 +195,23 @@ class AuthController extends BaseController
 
         // Lakukan update hanya jika ada perubahan data
         if (!empty($updateData)) {
+
+            // Add Notifikasi Ke dalam Perubahan Profil
+            $nim_pengguna = $this->request->getPost('NIM');
+            $db = \Config\Database::connect();
+            $currentDate = date('Y-m-d H:i:s');
+            $notifModel = new \App\Models\NotifModel();
+
+            $notifData = [
+                'NIM_terkait' => session()->get('user_id'),
+                'title_notif' => 'Perubahan Data',
+                'deskripsi_notif' => 'Admin telah merubah data anda',
+                'mark_readed' => 0,
+                'created_at' => $currentDate,
+            ];
+
+            $notifModel->insert($notifData);
+
             // Lakukan update menggunakan model
             $mahasiswaModel->update($mahasiswa['NIM'], $updateData);
 

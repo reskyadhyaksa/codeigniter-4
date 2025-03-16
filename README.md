@@ -4,7 +4,7 @@
 ## Project Installation
 1. Clone the repository 
 ```shell
-git clone https://github.com/reskyadhyaksa/codeigniter4.git
+git clone https://github.com/reskyadhyaksa/webunion-codeigniter4.git
 ```
 
 2. Switch to the repo folder 
